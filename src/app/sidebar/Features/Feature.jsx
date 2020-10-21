@@ -203,11 +203,11 @@ class Property extends React.Component {
                 </Tooltip>
                 <div className={'sidebar-item-noscroll'}>
                     <Collapse in={item.expand}>
-                        <div className="collapsed">
+                        <div className={"collapsed property--" + item.name}>
                             {fields.map(({ field, label, placeholder }) =>
                                 field === 'S' ||
                                 (this.props.SVTL[field] && (this.state[field] || !this.props.SVTL.S)) ? (
-                                    <div key={field} className={parentType + '--90'}>
+                                    <div key={field} className={parentType + '--90 property-input-'+field}>
                                         <div className={'darken'}>
                                             <div className={'darken property-row'}>
                                                 <AutoCompleteInput
@@ -393,7 +393,7 @@ export class Feature extends React.Component {
 
         return (
             <div
-                className={'block feature '}
+                className={'block feature feature--'+item.type}
                 ref={this._ref}
                 onDragOver={(e) => {
                     e.stopPropagation();
@@ -598,11 +598,14 @@ export class Feature extends React.Component {
                                             actions.addItem(item.index, {
                                                 class: 'property',
                                                 name: '',
-                                                value: '',
+                                                S: '',
+                                                T: '',
+                                                V: '',
+                                                L: '',
                                             });
                                         }}
                                     >
-                                        <Add style={{ height: '24px' }}></Add>
+                                        <Add className="property-add-button" style={{ height: '24px' }}></Add>
                                     </Button>
                                 </div>
                             </div>
@@ -793,7 +796,7 @@ export class FeatureGroup extends React.Component {
 
         return (
             <div
-                className={'featureGroup'}
+                className={'featureGroup ' + item.name}
                 ref={this._ref}
                 onDrop={(e) => {
                     e.preventDefault();
@@ -852,7 +855,6 @@ export class FeatureGroup extends React.Component {
 function SidebarItem(props) {
     const { item, headerStyle, itemStyle } = props;
     const { name, items, expand, index, load } = item;
-
     return (
         <div className="sidebar-item-wrapper">
             <div
@@ -866,7 +868,7 @@ function SidebarItem(props) {
                 >
                     <ExpandMore style={{ height: 24 }} />
                 </div>
-                <div className="sidebar-item-text">{name.toUpperCase()}</div>
+                <div className="sidebar-item-text">{name?.toUpperCase()}</div>
             </div>
             <div style={itemStyle} className="sidebar-item">
                 <Collapse in={expand}>
@@ -1147,7 +1149,7 @@ function SaveProgress(props) {
 function to_list(items, parent, SVTL) {
     const storeItems = store.getState().undoable.present.items;
 
-    return items.map((itemindex, idx) => {
+    return items?.map((itemindex, idx) => {
         const item = storeItems[itemindex];
         if (!item) return null;
         if (item.class === 'feature') {

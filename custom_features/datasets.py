@@ -22,9 +22,9 @@ class Dataset:
 
     def _as_iterator(self, selector, sort_results=False):
         if selector in self.iterators:
-            iterator = self.iterators[data]
+            iterator = self.iterators[selector]
         else:
-            iterator_list = list(glob.glob(data))
+            iterator_list = list(glob.glob(selector))
             assert len(iterator_list) > 0, "Data selector {0} matches no files".format(
                 iterator_list
             )
