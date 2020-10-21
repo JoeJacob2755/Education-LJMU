@@ -237,9 +237,12 @@ try {
 
 console.log(restart);
 function on_data(state, action) {
-    state = {
-        text: (state.text + action.text.toString()).slice(-1000000),
-    };
+    if (!action.text.includes("gevent_bug")) {
+        state = {
+            text: (state.text + action.text.toString()).slice(-1000000),
+        };
+    }
+    
     return state;
 }
 

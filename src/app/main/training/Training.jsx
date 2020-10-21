@@ -1074,6 +1074,7 @@ class Models extends React.Component {
 
                             <FormControl className={classes.textField}>
                                 <Button
+                                    id="add-to-queue-button"
                                     style={{
                                         backgroundColor: this.props.theme.palette.success.main,
                                         padding: '10px 12px',

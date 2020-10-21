@@ -7,6 +7,7 @@ import Predict from './Predict/Predict';
 import Simulator from './simulation/Simulator.jsx';
 import Training from './training/Training.jsx';
 
+import {TutorialStore} from "../../tutorials/IntroTutorial"
 const AntTabs = withStyles((theme: Theme) =>
     createStyles({
         indicator: {
@@ -47,7 +48,7 @@ interface MainTabsPropTypes {
 
 export default function MainTabs(props: MainTabsPropTypes) {
     const [tabIndex, setTabIndex] = React.useState(0);
-
+    TutorialStore.ActiveTabIndex = tabIndex
     return (
         <div id="main">
             <div
@@ -60,9 +61,9 @@ export default function MainTabs(props: MainTabsPropTypes) {
                 }}
             >
                 <AntTabs value={tabIndex} onChange={(event, newIndex) => setTabIndex(newIndex)}>
-                    <AntTab label="Visualize dataset"></AntTab>
-                    <AntTab label="Train model"></AntTab>
-                    <AntTab label="Predict"></AntTab>
+                    <AntTab id="main-tab-1" label="Visualize dataset"></AntTab>
+                    <AntTab id="main-tab-2" label="Train model"></AntTab>
+                    <AntTab id="main-tab-3" label="Predict"></AntTab>
                 </AntTabs>
             </div>
 

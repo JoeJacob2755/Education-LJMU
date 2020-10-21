@@ -3,7 +3,7 @@ import { Typography, List, Collapse, IconButton, Divider, Input, InputAdornment 
 import { Search, DeleteForever, ChevronRight } from '@material-ui/icons';
 import Python from '../../providers/PythonInterface';
 import rst2html from '../../providers/parseRST.ts';
-
+import {TutorialStore} from "../../tutorials/IntroTutorial"
 const ORDER = ['optics', 'scatterers', 'noise', 'math', 'models', 'features'].reverse();
 
 export default class FeatureStore extends React.Component {
@@ -28,7 +28,7 @@ export default class FeatureStore extends React.Component {
             }
             console.log(res);
             const featureKeys = JSON.parse(window.localStorage.getItem('featureKeys')) || [];
-            featureKeys.forEach((key) => {
+            featureKeys.filter((key) => !key.includes("$")).forEach((key) => {
                 const feature = JSON.parse(window.localStorage.getItem(key));
                 if (feature) {
                     if (!res['My Features']) res['My Features'] = {};
@@ -82,9 +82,9 @@ export default class FeatureStore extends React.Component {
 
 function FeatureListSection(props) {
     const [open, setOpen] = React.useState(false);
-
+    
     const { name, items } = props;
-
+    TutorialStore[name + "SectionOpen"] = open
     let subitems = Object.entries(items)
         .filter((k) => !props.search || k[0].toLowerCase().indexOf(props.search.toLowerCase()) !== -1)
         .map((item, idx) => (
@@ -96,12 +96,13 @@ function FeatureListSection(props) {
                 name={item[0]}
             ></FeatureListItem>
         ));
-
+    
+    
     subitems = subitems.filter((item) => item !== null);
 
     if (subitems.length > 0) {
         return (
-            <div className="background--dark">
+            <div className="feature-list-section background--dark">
                 <div style={{ width: '100%' }} className={'text--' + name + '--bright'}>
                     <div style={{ display: 'flex', width: '100%' }} onClick={() => setOpen(!open)}>
                         <div className={'fs-chevron ' + (open ? 'chevron-open' : 'chevron-closed')}>
@@ -109,6 +110,7 @@ function FeatureListSection(props) {
                         </div>
                         <Typography
                             variant="h5"
+                            className={"title--"+name}
                             style={{
                                 textAlign: 'center',
                                 textIndent: 5,
@@ -138,6 +140,7 @@ function FeatureListItem(props) {
 
     return showMe ? (
         <div
+            style={{position:"relative"}}
             className={'grabbable text--' + props.parentName + '--white'}
             draggable
             onMouseEnter={() => {
@@ -173,6 +176,7 @@ function FeatureListItem(props) {
             }}
         >
             <Typography
+                className={"feature-list-item-text " + "title--" + name}
                 noWrap
                 style={{
                     fontFamily: 'hack',

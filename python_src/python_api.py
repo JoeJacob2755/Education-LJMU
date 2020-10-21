@@ -39,11 +39,6 @@ load_model = keras.models.load_model
 
 DEFAULT_MODEL = "./python_src/tracker.h5"
 
-FEATURES = {
-    "Brightfield": deeptrack.optics.Brightfield,
-    "Fluorescence": deeptrack.optics.Fluorescence,
-    "Sphere": deeptrack.scatterers.Sphere,
-}
 
 EXCEPTIONS = [
     "Feature",
@@ -52,7 +47,15 @@ EXCEPTIONS = [
     "Aberration",
     "Optics",
     "Load",
+    "Noise",
     "StructuralFeature",
+    "MieScatterer",
+    "Blur",
+    "BlurCV2",
+    "KerasModel",
+    "Model",
+    "cgan",
+    "Noise",
 ]
 
 IGNORED_CLASSES = ()

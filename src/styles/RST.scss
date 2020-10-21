@@ -8,9 +8,11 @@
     padding: 10px;
     background-color: #222;
     border: 1px solid #666;
+}
+
+.rst-document {
     line-height: 1.2em;
     letter-spacing: 1px;
-
     .rst-text {
         font-size: 1rem;
     }
@@ -21,7 +23,7 @@
 
     .rst-interpreted_text {
         font-family: Hack;
-        color: royalblue;
+        color: #1976d2 !important;
     }
 
     .rst-code_block {
