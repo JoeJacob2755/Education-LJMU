@@ -9,7 +9,7 @@ On first launch, you may encounter a warning that the program is not signed. For
 
 ### Mac
 
-Download and run the installer from [here](https://github.com/softmatterlab/DeepTrack-2.0-app/releases/latest/download/DeepTrack.dmg).
+Download and run the installer from [here](https://github.com/softmatterlab/DeepTrack-2.0-app/releases/v0.0.1/download/DeepTrack.dmg).
 To launch the app, command click it in the and click run. You may encounter a warning that the program is not signed. For now, please disregard this warning as we work on a fix.
 
 ### Building from source
