@@ -11,6 +11,7 @@ const history_length = 5;
 
 export class ImageContainer extends React.Component {
     displayElements() {
+        
         if (this.props.src && this.props.label) {
             return (
                 <div style={{ flexDirection: 'row', display: 'flex' }} className={this.props.wrapClass}>
@@ -46,7 +47,7 @@ export class ImageContainer extends React.Component {
         return (
             <div class="image-container" style={{ userSelect: 'none' }}>
                 <div class="image-header background--20">
-                    <Button style={{ height: '100%', border: 'none' }} onClick={this.props.onRequestRefresh}>
+                    <Button className="refresh-button" style={{ height: '100%', border: 'none' }} onClick={this.props.onRequestRefresh}>
                         <RefreshOutlined></RefreshOutlined>
                     </Button>
                     {this.props.label ? (
@@ -180,7 +181,6 @@ export default class Trainer extends React.Component {
 
     async updateState(err, res) {
         const history = [...this.state.history];
-
         this.counter++;
         if (!err) {
             history.unshift({
@@ -394,7 +394,7 @@ export default class Trainer extends React.Component {
                                         T
                                     </div>
                                 </IconButton>
-                                <Button style={{ height: '100%', border: 'none' }} onClick={() => this.sampleFeature()}>
+                                <Button className="refresh-button" style={{ height: '100%', border: 'none' }} onClick={() => this.sampleFeature()}>
                                     <RefreshOutlined></RefreshOutlined>
                                 </Button>
                                 {this.state.history.length > 1 ? (
@@ -449,7 +449,6 @@ export default class Trainer extends React.Component {
                                 class={'image-wrapper'}
                                 style={{
                                     position: 'relative',
-                                    overflow: 'hidden',
                                     justifyContent: 'center',
                                 }}
                             >
@@ -520,7 +519,7 @@ export default class Trainer extends React.Component {
                     >
                         {this.state.comparison ? (
                             <ImageContainer
-                                wrapClass={'background--30 wrapper'}
+                                wrapClass={'background--30 wrapper result-screen'}
                                 src={this.state.comparison}
                                 onRequestRefresh={this.updateComparison.bind(this)}
                             />

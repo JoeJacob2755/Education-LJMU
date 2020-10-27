@@ -3,6 +3,8 @@ import React from 'react';
 import '../styles/colors.scss';
 import '../styles/App.scss';
 import '../styles/sidebar.scss';
+import '../styles/RST.scss';
+import '../styles/tutorial.scss'
 
 import store, { reset } from '../store/store.js';
 
@@ -25,6 +27,9 @@ import DownloadModal from './DownloadModal';
 import FeatureStoreDrawer from './featureStore/Drawer';
 
 import PythonInterface from '../providers/PythonInterface';
+
+import Tutorial, { IntroTutorialSteps, TutorialStore } from "../tutorials/IntroTutorial"
+import { app } from 'electron';
 
 const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
@@ -54,7 +59,7 @@ const useStyles = makeStyles((theme) =>
         root: {
             display: 'flex',
             height: 'calc(100vh - 30px)',
-            overflow: 'hidden',
+            // overflow: 'hidden',
         },
         appBar: {
             transition: theme.transitions.create(['margin', 'width'], {
@@ -118,6 +123,9 @@ export default function App() {
     const classes = useStyles();
     const [featureStoreOpen, setFeatureStoreOpen] = React.useState(false);
     const [dopen, setDOpen] = React.useState(false);
+    const [tutorial, setTutorial] = React.useState<null|JSX.Element>(null);
+
+    TutorialStore.featureStoreOpen = featureStoreOpen
 
     function savePython() {
         const present = store.getState().undoable.present;
@@ -178,12 +186,34 @@ export default function App() {
             e.preventDefault();
         }
     };
+    
+    const has_run_tutorial = localStorage.getItem("$has_run_intro_tutorial")
+
+    
+
+    React.useEffect(() => {
+        if (!tutorial && !has_run_tutorial) {
+            dialog.showMessageBox({
+                buttons: ["Yes", "No"],
+                message: "Do you want to start a first time tutorial? This will clear your current workspace. You can always restore your workspace with CTRL+Z."
+            }).then((r) => {
+                if (r.response===0) {
+                    reset()
+                    setTutorial(<Tutorial onEnd={(finished) => {localStorage.setItem("$has_run_intro_tutorial", "true"); setTutorial(null)}} steps={IntroTutorialSteps}></Tutorial>);
+                }
+            })
+        }
+    }, [])
+    
 
     return (
         <Provider store={store}>
+            
             <SnackbarProvider maxSnack={3}>
+                
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
+                    
                     <DownloadModal open={dopen} onClose={() => setDOpen(false)} />
                     <div className={classes.root + ' background--dark'}>
                         <div
@@ -214,6 +244,7 @@ export default function App() {
                                     <IconButton
                                         color="inherit"
                                         aria-label="open drawer"
+                                        id="open-store-button"
                                         onClick={() => {
                                             setFeatureStoreOpen(!featureStoreOpen);
                                         }}
@@ -293,6 +324,7 @@ export default function App() {
                             <Tabs theme={theme} />
                         </div>
                     </div>
+                    {tutorial}
                 </MuiThemeProvider>
             </SnackbarProvider>
         </Provider>

@@ -22,6 +22,7 @@ import io
 import re
 import glob
 import dts_to_py
+
 import google_api
 import zerorpc
 from deeptrack import *
@@ -38,11 +39,6 @@ load_model = keras.models.load_model
 
 DEFAULT_MODEL = "./python_src/tracker.h5"
 
-FEATURES = {
-    "Brightfield": deeptrack.optics.Brightfield,
-    "Fluorescence": deeptrack.optics.Fluorescence,
-    "Sphere": deeptrack.scatterers.Sphere,
-}
 
 EXCEPTIONS = [
     "Feature",
@@ -51,7 +47,15 @@ EXCEPTIONS = [
     "Aberration",
     "Optics",
     "Load",
+    "Noise",
     "StructuralFeature",
+    "MieScatterer",
+    "Blur",
+    "BlurCV2",
+    "KerasModel",
+    "Model",
+    "cgan",
+    "Noise",
 ]
 
 IGNORED_CLASSES = ()
@@ -168,12 +172,31 @@ class PyAPI(object):
         self.lock = threading.Lock
         self.generator = None
 
+        self.features = None
+        self.workspace = {}
+        self.last_feature_dict = None
+
+    def update_workspace(self, config):
+        for item in config:
+            if not item:
+                continue
+
+            if (
+                item["index"] in self.workspace
+                and self.workspace[item["index"]] == item
+            ):
+                continue
+
+            self.workspace[item["index"]] = item
+
+            self.requires_rebuild = True
+
+    # def exec_terminal():
+    #     pass
+
     @zerorpc.stream
     def download(self, id, destination):
-        iterator = google_api.load(id, destination)
-
-        print(iterator)
-        return iterator
+        yield from google_api.load(id, destination)
 
     @cached_function
     def getAvailableFunctions(self, *args, **kwargs):
@@ -1097,7 +1120,6 @@ class PyAPI(object):
                 sample_image = sample_image[idx]
                 labels = labels[idx]
 
-            print(labels.ndim)
             if sample_image.size > 2e7:
                 raise EnvironmentError(
                     "Result too large! Image is {0}. If you are loading batches of data from storage, try setting the `ndim` property of LoadImage to 4.".format(
@@ -1115,6 +1137,7 @@ class PyAPI(object):
             sample_image_file = self.save_image(
                 np.squeeze(sample_image), "./tmp/feature.bmp"
             )
+
             if isinstance(
                 labels, deeptrack.image.Image
             ) and "Label" in labels.get_property("name", False, []):
@@ -1217,14 +1240,17 @@ class PyAPI(object):
         while images.ndim < 3:
             images = np.expand_dims(images, axis=-1)
 
+        immax = np.max(images)
+        immin = np.min(images)
+
+        images -= immin
+        m = immax - immin
+        if m == 0:
+            m = 1
+        images = images / m * 255
+
         for f in range(images.shape[-1]):
             image = images[..., f]
-
-            image -= np.min(image)
-            immax = np.max(image)
-            if immax == 0:
-                immax = 1
-            image = image / immax * 255
 
             image = Image.fromarray(np.array(image).astype(np.uint8))
 
@@ -1234,28 +1260,5 @@ class PyAPI(object):
 
             tmpfile.seek(0)
             out.append(tmpfile.getvalue())
-        return out
 
-    def crop_to_divisible(self, image, divisor):
-        """Crops the dimensions of an image
-
-        Crops first two axes of an image to be divisible by a certain number.
-        Crops from the end of each axis.
-
-        PARAMETERS
-        ----------
-        image : np.ndarray
-            Image to be cropped
-        divisor : int
-            The number the dimensions should be divisible by
-
-        RETURNS
-        -------
-        np.ndarray
-            Cropped image
-        """
-
-        x_max = image.shape[0] // divisor * divisor
-        y_max = image.shape[1] // divisor * divisor
-
-        return image[:x_max, :y_max]
+        return {"data": out, "meta": {"limits": [float(immin), float(immax)]}}
