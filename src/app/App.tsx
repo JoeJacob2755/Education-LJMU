@@ -199,7 +199,7 @@ export default function App() {
             }).then((r) => {
                 if (r.response===0) {
                     reset()
-                    setTutorial(<Tutorial onEnd={(finished) => localStorage.setItem("$has_run_intro_tutorial", "true")} steps={IntroTutorialSteps}></Tutorial>);
+                    setTutorial(<Tutorial onEnd={(finished) => {localStorage.setItem("$has_run_intro_tutorial", "true"); setTutorial(null)}} steps={IntroTutorialSteps}></Tutorial>);
                 }
             })
         }
