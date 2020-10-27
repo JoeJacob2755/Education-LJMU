@@ -1120,7 +1120,6 @@ class PyAPI(object):
                 sample_image = sample_image[idx]
                 labels = labels[idx]
 
-            print(labels.ndim)
             if sample_image.size > 2e7:
                 raise EnvironmentError(
                     "Result too large! Image is {0}. If you are loading batches of data from storage, try setting the `ndim` property of LoadImage to 4.".format(
@@ -1138,6 +1137,7 @@ class PyAPI(object):
             sample_image_file = self.save_image(
                 np.squeeze(sample_image), "./tmp/feature.bmp"
             )
+
             if isinstance(
                 labels, deeptrack.image.Image
             ) and "Label" in labels.get_property("name", False, []):
@@ -1240,14 +1240,17 @@ class PyAPI(object):
         while images.ndim < 3:
             images = np.expand_dims(images, axis=-1)
 
+        immax = np.max(images)
+        immin = np.min(images)
+
+        images -= immin
+        m = immax - immin
+        if m == 0:
+            m = 1
+        images = images / m * 255
+
         for f in range(images.shape[-1]):
             image = images[..., f]
-
-            image -= np.min(image)
-            immax = np.max(image)
-            if immax == 0:
-                immax = 1
-            image = image / immax * 255
 
             image = Image.fromarray(np.array(image).astype(np.uint8))
 
@@ -1257,4 +1260,5 @@ class PyAPI(object):
 
             tmpfile.seek(0)
             out.append(tmpfile.getvalue())
-        return out
+
+        return {"data": out, "meta": {"limits": [float(immin), float(immax)]}}

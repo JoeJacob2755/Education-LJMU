@@ -11,6 +11,7 @@ const history_length = 5;
 
 export class ImageContainer extends React.Component {
     displayElements() {
+        
         if (this.props.src && this.props.label) {
             return (
                 <div style={{ flexDirection: 'row', display: 'flex' }} className={this.props.wrapClass}>
@@ -180,7 +181,6 @@ export default class Trainer extends React.Component {
 
     async updateState(err, res) {
         const history = [...this.state.history];
-
         this.counter++;
         if (!err) {
             history.unshift({
@@ -449,7 +449,6 @@ export default class Trainer extends React.Component {
                                 class={'image-wrapper'}
                                 style={{
                                     position: 'relative',
-                                    overflow: 'hidden',
                                     justifyContent: 'center',
                                 }}
                             >

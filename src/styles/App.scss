@@ -756,7 +756,6 @@ img {
     width: 50%;
     height: 100%;
     display: flex;
-    overflow: hidden;
     align-items: center;
     text-align: center;
 }
@@ -856,4 +855,18 @@ p {
 
 .container-after-titlebar {
     overflow: unset !important;
+}
+
+.image-infobox {
+    position: absolute;
+    z-index: 99999;
+    pointer-events: none;
+    padding: 10px;
+    background-color: #111;
+    border: 1px solid #444;
+    white-space: nowrap;
+}
+
+.image-infobox:before {
+    content: 'Value: ';
 }

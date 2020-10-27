@@ -30,19 +30,85 @@ import { addItem, setValue } from '../../../store/actions';
 
 const path = window.require('path');
 
-export function Image(props) {
+function PixelPopup(props) {
+
+}
+
+export function DTImage(props) {
     let [index, setIndex] = React.useState(0);
+    let [showHover, setShowHover] = React.useState(false);
+    let canvasRef = React.useRef(null)
+    let hoverRef = React.useRef(null)
+
+    console.log(props)
+
+    function handleMouseMove(e) {
+
+        const ctx = canvasRef.current.getContext("2d")
+        const rect = canvasRef.current.getBoundingClientRect()
+        const {height, width} = canvasRef.current;
+        const x_ratio = rect.height / height;
+        const y_ratio = rect.width / width;
+        const x = parseInt((e.clientX - rect.left));
+        const y = parseInt((e.clientY - rect.top)) ;
+
+        const p = ctx.getImageData(
+            x / x_ratio, 
+            y / y_ratio, 1, 1).data
+        
+        let value = p[0]
+        if (props.limits) {
+            value = value / 255 * props.limits[1] + props.limits[0]
+        }
+        hoverRef.current.innerHTML = value.toPrecision(4) + ""
+        hoverRef.current.style.left = x + 3 + "px";
+        hoverRef.current.style.top = y + 3 + "px";
+        
+    }
+
+    
+
     index = Math.min(index, props.sources.length - 1);
+    const source = typeof props.sources[index] === 'string' ? props.sources[index] : 'data:image/bmp;base64, ' + props.sources[index].toString('base64')
+
+    React.useEffect(() => {
+        const ctx = canvasRef.current.getContext("2d")
+        const {height, width} = canvasRef.current;
+        
+        
+        // ctx.transform(0.5, 0, 0, 0.5, 0, 0)
+        const image = new Image();
+        image.onload = function() {
+            const height_ratio = height / this.height
+            const width_ratio = width / this.width
+            const ratio = Math.min(width_ratio, height_ratio)
+
+            const x = (width - this.width * ratio) / 2
+            const y = (height - this.height * ratio) / 2
+
+            ctx.resetTransform()
+            ctx.clearRect(0, 0, width, height)
+            ctx.transform(ratio, 0, 0, ratio, x, y)
+            ctx.drawImage(this, 0, 0);
+            
+        }
+        image.src = source
+    }, [source])
+
     return (
         <div style={props.style}>
-            <img
+            <canvas
                 {...props}
-                src={
-                    typeof props.sources[index] === 'string'
-                        ? props.sources[index]
-                        : 'data:image/bmp;base64, ' + props.sources[index].toString('base64')
-                }
-            ></img>
+                onMouseMove={handleMouseMove}
+                onMouseEnter={() => setShowHover(true)} 
+                onMouseOut={() => setShowHover(false)}
+                onMouse
+                ref={canvasRef} class="image-canvas">
+                
+            </canvas>
+            <div hidden={!showHover} ref={hoverRef} className="image-infobox">
+                
+            </div>
             {props.sources.length > 1 ? (
                 <div style={{ marginLeft: 10, marginRight: 10 }}>
                     <Slider
@@ -69,6 +135,19 @@ const { dialog } = window.require('electron').remote;
 const fs = window.require('fs');
 
 export function ResultDisplay(props) {
+
+    
+    let data = props.src
+    let meta = {};
+
+    
+    if (data && !Array.isArray(data)) {
+        
+        
+        meta = data.meta;
+        data = data.data;
+    }
+    
     return (
         <div
             style={{
@@ -90,16 +169,17 @@ export function ResultDisplay(props) {
                 </div>
             ) : null}
 
-            {props.src ? (
-                !(typeof props.src[0].name === 'string') ? (
-                    <Image
+            {data ? (
+                !(typeof data.name === 'string') ? (
+                    <DTImage
                         className="result-image"
                         style={{
                             objectFit: 'contain',
                             width: '100%',
                             maxHeight: '100% ',
                         }}
-                        sources={props.src}
+                        sources={data}
+                        {...meta}
                     />
                 ) : (
                     <div class="label-wrapper">
@@ -111,7 +191,7 @@ export function ResultDisplay(props) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {props.src.map((row, idx) => (
+                                {data.map((row, idx) => (
                                     <TableRow key={row}>
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.value}</TableCell>
