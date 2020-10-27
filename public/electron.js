@@ -6,6 +6,7 @@ const url = require('url');
 const { error } = require('console');
 
 const { autoUpdater } = require('electron-updater');
+const { exec } = require('child_process');
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -55,50 +56,46 @@ let pyProc = null;
 let pyProcMain = null;
 
 const createPyProc = () => {
-    try {
+    
         const path = require('path');
-        let script = path.join(__dirname, '../', '/python_src/server.py');
+        let server = path.resolve(path.join(__dirname, '../', '/python_src/dist/server/server')).replace('app.asar', 'app.asar.unpacked');
+        let root = path.resolve(__dirname + '/../').replace('app.asar', 'app.asar.unpacked');
 
-        let root = path.resolve(__dirname + '/../');
-        console.log('Starting python from ', script, root);
+        console.log('Starting python from ', root, server);
         console.log(__dirname);
 
         let port = '' + 2734;
 
-        if (false) {
+  
+        if (process.platform === 'win32') {
+            console.log("path", server)
+            pyProcMain = require('child_process').spawn(server + ".exe", ['-u'], { cwd: root });
         } else {
-            if (process.platform === 'win32') {
-                let execScript = path.join(__dirname, '../', '/python_src/dist/server/server.exe');
-                pyProcMain = require('child_process').spawn(execScript, ['-u'], { cwd: root });
-            } else {
-                let execScript = path.join(__dirname, '../', '/python_src/dist/server/server');
-                console.log(execScript);
-                pyProcMain = require('child_process').spawn(execScript, ['-u'], { cwd: root });
-            }
-
-            exports.logger = () => {
-                return pyProcMain;
-            };
-            exports.restart_server = () => {
-                pyProcMain.kill();
-                if (process.platform === 'win32') {
-                    let execScript = path.join(__dirname, '../', '/python_src/dist/server/server.exe');
-                    pyProcMain = require('child_process').spawn(execScript, ['-u'], { cwd: root });
-                } else if (process.platform === 'darwin') {
-                    let execScript = path.join(__dirname, '../', '/python_src/dist/server/server');
-                    console.log(execScript);
-                    pyProcMain = require('child_process').spawn(execScript, ['-u'], { cwd: root });
-                }
-            };
+            console.log(server);
+            pyProcMain = require('child_process').spawn(server, ['-u'], { cwd: root });
         }
+
+        exports.logger = () => {
+            return pyProcMain;
+        };
+
+        exports.restart_server = () => {
+            pyProcMain.kill();
+            if (process.platform === 'win32') {
+                pyProcMain = require('child_process').spawn(server + ".exe", ['-u'], { cwd: root });
+            } else {
+                pyProcMain = require('child_process').spawn(server  , ['-u'], { cwd: root });
+            }
+        };
+        
         if (pyProc != null) {
             console.log('child process success on port ' + port);
         } else {
             console.log('Something is wrong');
         }
-    } catch {
-        console.log('Server may be down');
-    }
+    // } catch {
+    //     console.log('Server may be down');
+    // }
 };
 
 const exitPyProc = () => {

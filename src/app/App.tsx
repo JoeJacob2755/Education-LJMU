@@ -29,6 +29,7 @@ import FeatureStoreDrawer from './featureStore/Drawer';
 import PythonInterface from '../providers/PythonInterface';
 
 import Tutorial, { IntroTutorialSteps, TutorialStore } from "../tutorials/IntroTutorial"
+import { app } from 'electron';
 
 const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
@@ -190,18 +191,20 @@ export default function App() {
 
     
 
-
-    if (!tutorial && !has_run_tutorial) {
-        dialog.showMessageBox({
-            buttons: ["Yes", "No"],
-            message: "Do you want to start a first time tutorial? This will clear your current workspace. You can always restore your workspace with CTRL+Z."
-        }).then((r) => {
-            if (r.response===0) {
-                reset()
-                setTutorial(<Tutorial onEnd={(finished) => localStorage.setItem("$has_run_intro_tutorial", "true")} steps={IntroTutorialSteps}></Tutorial>);
-            }
-        })
-    }
+    React.useEffect(() => {
+        if (!tutorial && !has_run_tutorial) {
+            dialog.showMessageBox({
+                buttons: ["Yes", "No"],
+                message: "Do you want to start a first time tutorial? This will clear your current workspace. You can always restore your workspace with CTRL+Z."
+            }).then((r) => {
+                if (r.response===0) {
+                    reset()
+                    setTutorial(<Tutorial onEnd={(finished) => localStorage.setItem("$has_run_intro_tutorial", "true")} steps={IntroTutorialSteps}></Tutorial>);
+                }
+            })
+        }
+    }, [])
+    
 
     return (
         <Provider store={store}>
@@ -272,7 +275,7 @@ export default function App() {
                                             <Code></Code>
                                         </IconButton>
                                     </Tooltip>
-                                    {/* <Tooltip title="Download dataset">
+                                    <Tooltip title="Download dataset">
                                         <IconButton
                                             color="inherit"
                                             aria-label="download data"
@@ -284,7 +287,7 @@ export default function App() {
                                         >
                                             <CloudDownload />
                                         </IconButton>
-                                    </Tooltip> */}
+                                    </Tooltip>
 
                                     <IconButton
                                         color="inherit"
