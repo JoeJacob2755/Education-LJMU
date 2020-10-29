@@ -170,7 +170,7 @@ export function ResultDisplay(props) {
             ) : null}
 
             {data ? (
-                !(typeof data.name === 'string') ? (
+                !(typeof data[0].name === 'string') ? (
                     <DTImage
                         className="result-image"
                         style={{
