@@ -258,23 +258,24 @@ export default class Trainer extends React.Component {
                 function save(index, result, label) {
                     const entry = {};
 
-                    if (typeof result[0].name == 'string') {
+                    console.log(result)
+                    if (Array.isArray(result)) {
                         entry.input = { value: result, type: 'list' };
                     } else {
-                        entry.input = { value: [], type: 'paths' };
-                        result.forEach((item, j) => {
+                        entry.input = { value: [], type: 'path', meta: result.meta};
+                        result.data.forEach((item, j) => {
                             const path = dir + 'images/' + datestring + 'image' + index + '_layer_' + j + '.bmp';
                             fs.writeFileSync(path, item, 'base64', () => {});
                             entry.input.value.push(path);
                         });
                     }
 
-                    if (typeof result[0].name == 'string') {
+                    if (Array.isArray(label)) {
                         entry.label = { value: label, type: 'list' };
                     } else {
-                        entry.label = { value: [], type: 'paths' };
-                        label.forEach((item, j) => {
-                            const path = dir + 'images/' + datestring + 'label' + index + '_layer_' + j + '.bmp';
+                        entry.label = { value: [], type: 'path', meta: label.meta};
+                        label.data.forEach((item, j) => {
+                            const path = dir + 'labels/' + datestring + 'label' + index + '_layer_' + j + '.bmp';
                             fs.writeFileSync(path, item, 'base64', () => {});
                             entry.label.value.push(path);
                         });

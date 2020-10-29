@@ -73,7 +73,6 @@ exclude=[
     "typed_ast",
     "win32com",
     "winpty",
-    "wrapt",
     "zope"
 ]    
 
