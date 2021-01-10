@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './UI/styles.css';
 import 'tailwindcss/tailwind.css';
 import { connect } from 'react-redux';
 import { State } from './reducers/types';

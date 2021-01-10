@@ -1,0 +1,7 @@
+.text-input {
+    border-bottom: 2px transparent solid;
+}
+
+.text-input:focus {
+    border-color: teal;
+}
