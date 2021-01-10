@@ -3,20 +3,23 @@ import './App.css';
 import 'tailwindcss/tailwind.css';
 import { connect } from 'react-redux';
 import { State } from './reducers/types';
-import OpenProjectPage from './OpenProjectPage/';
+import OpenProjectPage, { CreateProjectModal } from './OpenProjectPage/';
 
-function App(props: Record<string, unknown>) {
+function App(props: State) {
     if (props.project !== {}) {
-        return <OpenProjectPage></OpenProjectPage>;
+        return (
+            <>
+                <OpenProjectPage></OpenProjectPage>{' '}
+                <CreateProjectModal open={props.createProjectModalOpen}></CreateProjectModal>
+            </>
+        );
     } else {
         return <OpenProjectPage></OpenProjectPage>;
     }
 }
 
 const mapStateToProps = (state: State) => {
-    return {
-        project: state.project,
-    };
+    return state;
 };
 
 export default connect(mapStateToProps)(App);
