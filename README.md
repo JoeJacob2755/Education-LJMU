@@ -1,49 +1,46 @@
-An interface for training and evaluating deep learning models, targeting microscopy. 
+# Getting Started with Create React App
 
-## Installation
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Windows
+## Available Scripts
 
-Download and run the installer from [here](https://github.com/softmatterlab/DeepTrack-2.0-app/releases/latest/download/DeepTrack2.exe).
-On first launch, you may encounter a warning that the program is not signed. For now, please disregard this warning as we work on a fix.
+In the project directory, you can run:
 
-#### Known problems
+### `yarn start`
 
-White screen on boot, and ctrl+shift+i shows an error that zeromq could not be found. The solution is to install the vc_redist from here: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads. Future versions will install this with the app.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### Mac
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-Download and run the installer from [here](https://github.com/softmatterlab/DeepTrack-2.0-app/releases/tag/v0.0.1/download/DeepTrack.dmg).
-To launch the app, command click it in the and click run. You may encounter a warning that the program is not signed. For now, please disregard this warning as we work on a fix.
+### `yarn test`
 
-### Building from source
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Needed: 
-    
-    Node
-    Python>=3.6
-    git
+### `yarn build`
 
-Create a folder and in a terminal run
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-    git clone https://github.com/softmatterlab/DeepTrack-2.0-app .
- 
-Then run
-    
-    npm install
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-followed by
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-    pip install numpy
-    pip install -r requirements.txt
-    
-Note that numpy needs to be installed first, because scikit-image currently have some issues with installing if it isn't installed first.
+### `yarn eject`
 
-One this is done, run, in order,
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-    npm run build
-    npm run build-server
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-This will create the production version of the app. Now it can be run with
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-    npm run start-prod
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
