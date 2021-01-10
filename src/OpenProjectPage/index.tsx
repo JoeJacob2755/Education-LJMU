@@ -1,2 +1,2 @@
-import OpenProjectPage from './OpenProjectPage';
-export default OpenProjectPage;
+export { default } from './OpenProjectPage';
+// export { CreateProjectModal } from './CreateProjectModal';

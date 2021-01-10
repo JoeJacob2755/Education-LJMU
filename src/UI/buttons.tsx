@@ -7,7 +7,8 @@ export function SquareButton(
         <button
             {...props}
             className={
-                props.className + ' bg-green-700 p-2 text-xl rounded-md text-opacity-80 text-white hover:bg-green-600'
+                props.className +
+                ' p-1 rounded-md text-opacity-80 text-white text-bread border-2 border-green-600 hover:border-green-500 focus:border-green-400 focus:outline-none'
             }
         ></button>
     );

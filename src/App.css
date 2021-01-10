@@ -2,8 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Gilroy';
+    font-weight: 900;
+    src: local('Gilroy'), url(./fonts/gilroy-extrabold.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    font-weight: 300;
+    src: local('Gilroy'), url(./fonts/gilroy-light.otf) format('opentype');
+}
+
 .h-screen-title {
     height: calc(100vh - 30px);
+}
+
+.text-title {
+    font-family: 'Gilroy';
+    letter-spacing: 0.3em;
+    font-size: 10em;
+}
+
+.text-bread {
+    font-family: 'Roboto';
+    letter-spacing: 0.07em;
+    font-size: 1.5em;
+}
+
+.text-code {
+    font-family: 'Roboto Mono';
+    font-size: 1.3em;
+    /* letter-spacing: 0.05em; */
 }
 
 .App {
