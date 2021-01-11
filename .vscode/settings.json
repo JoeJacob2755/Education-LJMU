@@ -1,0 +1,9 @@
+{
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "javascript.validate.enable": false,
+    "tailwindCSS.includeLanguages": {
+        "plaintext": "typescript"
+    }
+}
