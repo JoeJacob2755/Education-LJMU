@@ -5,11 +5,12 @@ import 'tailwindcss/tailwind.css';
 import { connect } from 'react-redux';
 import { State } from './reducers/types';
 import OpenProjectPage, { CreateProjectModal } from './OpenProjectPage/';
+import ProjectPage from './ProjectPage/';
 
 function App(props: State) {
     return (
         <>
-            {props.project.id ? <div></div> : <OpenProjectPage></OpenProjectPage>}
+            {props.project.id ? <ProjectPage></ProjectPage> : <OpenProjectPage></OpenProjectPage>}
             <CreateProjectModal open={props.createProjectModalOpen}></CreateProjectModal>
         </>
     );
