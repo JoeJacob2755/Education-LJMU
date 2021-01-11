@@ -7,16 +7,12 @@ import { State } from './reducers/types';
 import OpenProjectPage, { CreateProjectModal } from './OpenProjectPage/';
 
 function App(props: State) {
-    if (props.project !== {}) {
-        return (
-            <>
-                <OpenProjectPage></OpenProjectPage>{' '}
-                <CreateProjectModal open={props.createProjectModalOpen}></CreateProjectModal>
-            </>
-        );
-    } else {
-        return <OpenProjectPage></OpenProjectPage>;
-    }
+    return (
+        <>
+            {props.project.id ? <div></div> : <OpenProjectPage></OpenProjectPage>}
+            <CreateProjectModal open={props.createProjectModalOpen}></CreateProjectModal>
+        </>
+    );
 }
 
 const mapStateToProps = (state: State) => {

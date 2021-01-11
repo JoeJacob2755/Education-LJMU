@@ -2,6 +2,7 @@
  * Actions operating on the store should be defined here.
  */
 
+import { createProjectConfig, saveProjectToLS } from '../utils';
 import {
     Project,
     SetProjectAction,
@@ -10,7 +11,15 @@ import {
     CLOSE_CREATE_PROJECT_MODAL,
     CloseCreateProjectModal,
     OpenCreateProjectModal,
+    CreateAndSetProjectPayload,
 } from './types';
+
+export function createAndSetProject(newProject: CreateAndSetProjectPayload): SetProjectAction {
+    const project: Project = { ...newProject, created: new Date(), id: '' };
+    project.id = createProjectConfig(project);
+    saveProjectToLS(project);
+    return setProject(project);
+}
 
 export function setProject(newProject: Project): SetProjectAction {
     return {

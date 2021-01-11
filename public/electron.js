@@ -4,6 +4,8 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 
+exports.fs = require('fs');
+
 console.log('Electron started');
 
 function createWindow() {

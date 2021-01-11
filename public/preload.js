@@ -4,6 +4,4 @@ window.addEventListener('DOMContentLoaded', () => {
     new customTitlebar.Titlebar({
         backgroundColor: customTitlebar.Color.fromHex('#111827'),
     });
-
-    // ...
 });

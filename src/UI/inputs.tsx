@@ -1,5 +1,5 @@
 // import { FormControl, Input, InputLabel, InputProps } from '@material-ui/core';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { SquareButton } from './buttons';
 
 export function TextInput(
@@ -23,30 +23,54 @@ export function TextInput(
     );
 }
 
-type TextInputWithButtonExtraProps = {
+type TextInputWithButtonProps = {
     label: string;
+    inputProps: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
     buttonProps: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 };
 
-export function TextInputWithButton(
-    props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> &
-        TextInputWithButtonExtraProps,
-) {
-    const buttonProps = props.buttonProps || {};
+export function TextInputWithButton(props: TextInputWithButtonProps) {
+    const buttonprops = props.buttonProps || {};
+    const inputprops = props.inputProps || {};
     return (
         <div className="my-8 text-white flex flex-col w-3/4 max-w-lg">
-            <label htmlFor={props.id} className="text-bread py-2">
+            <label htmlFor={inputprops.id} className="text-bread py-2">
                 {props.label}
             </label>
             <div className="flex">
                 <input
-                    {...props}
+                    {...inputprops}
                     className={
-                        props.className +
+                        inputprops.className +
                         ' text-input bg-gray-800 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
                     }
                 ></input>
-                <SquareButton {...buttonProps}> {buttonProps.children} </SquareButton>
+                <SquareButton {...buttonprops}> {buttonprops.children} </SquareButton>
+            </div>
+        </div>
+    );
+}
+
+export function SelectInput(props: {
+    label: string;
+    children: ReactNode;
+    selectProps: React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
+}) {
+    return (
+        <div className="my-8 text-white flex flex-col w-3/4 max-w-lg">
+            <label htmlFor={props.selectProps.id} className="text-bread py-2">
+                {props.label}
+            </label>
+            <div className="flex">
+                <select
+                    {...props.selectProps}
+                    className={
+                        props.selectProps.className +
+                        ' text-input bg-gray-800 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
+                    }
+                >
+                    {props.children}
+                </select>
             </div>
         </div>
     );
