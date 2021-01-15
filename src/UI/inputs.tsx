@@ -15,7 +15,7 @@ export function TextInput(
                     {...props}
                     className={
                         props.className +
-                        ' text-input bg-gray-700 py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
+                        ' text-input bg-gray-700 py-2 grad pl-2 text-bread text-base focus:outline-none flex-grow'
                     }
                 ></input>
             </div>

@@ -61,10 +61,10 @@ export const CreateProjectModal = connect(
     return (
         <Modal open={props.open} onClose={props.closeCreateProjectModal}>
             <div
-                className=" w-screen mt-20 h-full rounded-t-3xl  focus:outline-none bg-gradient-to-tr from-gray-900 to-gray-800 text-white"
+                className=" w-screen mt-20 h-full rounded-t-3xl focus:outline-none bg-gradient-to-tr from-gray-900 to-gray-800 text-white"
                 style={{ flexGrow: 1, flexShrink: 1 }}
             >
-                <div className="flex flex-col pt-16 h-96 bg-gradient-to-r rounded-t-3xl from-blue-500 to-blue-900">
+                <div className="flex flex-col pt-16 h-96 bg-gradient-to-tr gradient-lg animate-gradient-x animation-running-hover rounded-t-3xl from-blue-500 via-green-700 to-pink-600">
                     <h1 className="place-self-center text-bread font-semibold text-5xl ">Start a new project!</h1>
                     <p className="place-self-center text-bread font-thin mt-6">
                         Employ deep learning to analyze your data.
@@ -75,8 +75,8 @@ export const CreateProjectModal = connect(
                         <ArrowBack className="text-white" fontSize="large" />
                     </IconButton>
                 </div>
-                <div className="flex -mt-32 flex-row place-content-center justify-evenly">
-                    <FloatingCard className="min-w-min w-4/12 h-4/6">
+                <div className="flex flex-row place-content-center justify-evenly">
+                    <FloatingCard className="min-w-min w-4/12 h-4/6 -mt-32">
                         <form className="w-full text-white">
                             <h1 className="text-bread text-3xl text-white">Configure the project.</h1>
                             <TextInput required={true} label="Project name" id="project-name-input"></TextInput>
@@ -104,7 +104,7 @@ export const CreateProjectModal = connect(
                             </SquareButton>
                         </form>
                     </FloatingCard>
-                    <FloatingCard className="min-w-min w-4/12 ">
+                    <FloatingCard className="min-w-min w-4/12 -mt-32">
                         <div className="flex-grow" style={{ flexGrow: 2, flexShrink: 0 }}>
                             <h1 className="text-bread text-3xl text-white">Add your dataset.</h1>
                             <div className="text-bread w-full mt-4">
