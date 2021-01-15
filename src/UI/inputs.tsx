@@ -6,7 +6,7 @@ export function TextInput(
     props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & { label: string },
 ) {
     return (
-        <div className="my-8 text-white flex flex-col w-3/4">
+        <div className="my-8 text-white flex flex-col ">
             <label htmlFor={props.id} className="text-bread py-2">
                 {props.label}
             </label>
@@ -15,7 +15,7 @@ export function TextInput(
                     {...props}
                     className={
                         props.className +
-                        ' text-input bg-gray-800 py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
+                        ' text-input bg-gray-700 py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
                     }
                 ></input>
             </div>
@@ -33,7 +33,7 @@ export function TextInputWithButton(props: TextInputWithButtonProps) {
     const buttonprops = props.buttonProps || {};
     const inputprops = props.inputProps || {};
     return (
-        <div className="my-8 text-white flex flex-col w-3/4">
+        <div className="my-8 text-white flex flex-col">
             <label htmlFor={inputprops.id} className="text-bread py-2">
                 {props.label}
             </label>
@@ -42,7 +42,7 @@ export function TextInputWithButton(props: TextInputWithButtonProps) {
                     {...inputprops}
                     className={
                         inputprops.className +
-                        ' text-input bg-gray-800 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
+                        ' text-input bg-gray-700 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
                     }
                 ></input>
                 <SquareButton {...buttonprops}> {buttonprops.children} </SquareButton>
@@ -69,7 +69,7 @@ export function SelectInput(props: {
                     {...props.selectProps}
                     className={
                         props.selectProps.className +
-                        ' text-input bg-gray-800 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
+                        ' text-input bg-gray-700 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
                     }
                 >
                     {props.children}
@@ -88,7 +88,7 @@ export function InlineSelectInput(props: {
             {...props.selectProps}
             className={
                 props.selectProps.className +
-                ' m-1 inline text-input bg-gray-800 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
+                ' m-1 inline text-input bg-gray-700 w-auto py-2 pl-2 text-bread text-base focus:outline-none flex-grow'
             }
         >
             {props.children}

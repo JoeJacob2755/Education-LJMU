@@ -7,6 +7,7 @@ import { InlineSelectInput, SelectInput, TextInput, TextInputWithButton } from '
 import { getProjectConfigPath, openProjectPicker } from '../utils';
 import { SquareButton } from '../UI/buttons';
 import { CreateAndSetProjectPayload } from '../reducers/types';
+import { FloatingCard } from '../UI/cards';
 
 const fs = window.require('fs');
 
@@ -59,62 +60,77 @@ export const CreateProjectModal = connect(
 
     return (
         <Modal open={props.open} onClose={props.closeCreateProjectModal}>
-            <div className="flex flex-row pt-24 bg-gray-900 w-screen h-screen" style={{ flexGrow: 1, flexShrink: 1 }}>
-                <div>
-                    <form className=" focus:outline-none px-20 w-full text-white">
-                        <div className="absolute -ml-16 -mt-14 mb-8">
-                            <IconButton onClick={props.closeCreateProjectModal}>
-                                <ArrowBack className="text-white" fontSize="large" />
-                            </IconButton>
-                        </div>
-                        <h1 className="text-bread text-4xl text-white">Start a new project!</h1>
-
-                        <TextInput required={true} label="Project name" id="project-name-input"></TextInput>
-
-                        <TextInputWithButton
-                            buttonProps={{ children: 'Select folder', onClick: selectWorkspacePath, type: 'button' }}
-                            label="Workspace path"
-                            inputProps={{ id: 'project-workspace-input', required: true }}
-                        ></TextInputWithButton>
-
-                        <SelectInput label="What is your goal?" selectProps={{ id: 'project-goal-select' }}>
-                            <option>Tracking</option>
-                            <option>Segmentation</option>
-                            <option>Classification</option>
-                            <option>Regression</option>
-                            <option>Other</option>
-                        </SelectInput>
-
-                        <div className="text-bread w-full">
-                            <span>My dataset consists of</span>
-                            <InlineSelectInput selectProps={{ id: 'project-dataset-plurality' }}>
-                                <option>many</option>
-                                <option>a single</option>
-                            </InlineSelectInput>
-                            <span>file(s), each of which contains</span>
-                            <InlineSelectInput
-                                selectProps={{
-                                    defaultValue: 'a single',
-                                    id: 'project-dataset-plurality',
-                                }}
-                            >
-                                <option>many</option>
-                                <option>a single</option>
-                            </InlineSelectInput>
-                            <InlineSelectInput selectProps={{ id: 'project-dataset-type' }}>
-                                <option>image(s)</option>
-                                <option>video(s)</option>
-                            </InlineSelectInput>
-                            <span className="whitespace-pre">.</span>
-                        </div>
-
-                        <SquareButton type="button" className="w-52 ml-auto mr-auto mt-9" onClick={createProject}>
-                            Go!
-                        </SquareButton>
-                    </form>
+            <div
+                className=" w-screen mt-20 h-full rounded-t-3xl  focus:outline-none bg-gradient-to-tr from-gray-900 to-gray-800 text-white"
+                style={{ flexGrow: 1, flexShrink: 1 }}
+            >
+                <div className="flex flex-col pt-16 h-96 bg-gradient-to-r rounded-t-3xl from-blue-500 to-blue-900">
+                    <h1 className="place-self-center text-bread font-semibold text-5xl ">Start a new project!</h1>
+                    <p className="place-self-center text-bread font-thin mt-6">
+                        Employ deep learning to analyze your data.
+                    </p>
                 </div>
-                <div className="flex-grow" style={{ flexGrow: 2, flexShrink: 0 }}>
-                    <h1 className="text-bread text-4xl text-white">Add your dataset!</h1>
+                <div className="absolute top-24 left-5">
+                    <IconButton onClick={props.closeCreateProjectModal}>
+                        <ArrowBack className="text-white" fontSize="large" />
+                    </IconButton>
+                </div>
+                <div className="flex -mt-32 flex-row place-content-center justify-evenly">
+                    <FloatingCard className="min-w-min w-4/12 h-4/6">
+                        <form className="w-full text-white">
+                            <h1 className="text-bread text-3xl text-white">Configure the project.</h1>
+                            <TextInput required={true} label="Project name" id="project-name-input"></TextInput>
+
+                            <TextInputWithButton
+                                buttonProps={{
+                                    children: 'Select folder',
+                                    onClick: selectWorkspacePath,
+                                    type: 'button',
+                                }}
+                                label="Workspace path"
+                                inputProps={{ id: 'project-workspace-input', required: true }}
+                            ></TextInputWithButton>
+
+                            <SelectInput label="What is your goal?" selectProps={{ id: 'project-goal-select' }}>
+                                <option>Tracking</option>
+                                <option>Segmentation</option>
+                                <option>Classification</option>
+                                <option>Regression</option>
+                                <option>Other</option>
+                            </SelectInput>
+
+                            <SquareButton type="button" className="w-52 ml-auto mr-auto mt-9" onClick={createProject}>
+                                Go!
+                            </SquareButton>
+                        </form>
+                    </FloatingCard>
+                    <FloatingCard className="min-w-min w-4/12 ">
+                        <div className="flex-grow" style={{ flexGrow: 2, flexShrink: 0 }}>
+                            <h1 className="text-bread text-3xl text-white">Add your dataset.</h1>
+                            <div className="text-bread w-full mt-4">
+                                <span>My dataset consists of</span>
+                                <InlineSelectInput selectProps={{ id: 'project-dataset-plurality' }}>
+                                    <option>several</option>
+                                    <option>a single</option>
+                                </InlineSelectInput>
+                                <span>file(s), each of which contains</span>
+                                <InlineSelectInput
+                                    selectProps={{
+                                        defaultValue: 'a single',
+                                        id: 'project-dataset-plurality',
+                                    }}
+                                >
+                                    <option>several</option>
+                                    <option>a single</option>
+                                </InlineSelectInput>
+                                <InlineSelectInput selectProps={{ id: 'project-dataset-type' }}>
+                                    <option>image(s)</option>
+                                    <option>video(s)</option>
+                                </InlineSelectInput>
+                                <span className="whitespace-pre">.</span>
+                            </div>
+                        </div>
+                    </FloatingCard>
                 </div>
             </div>
         </Modal>
