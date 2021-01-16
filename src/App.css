@@ -18,6 +18,26 @@
     height: calc(100vh - 30px);
 }
 
+.animation-running {
+    animation-play-state: running;
+}
+
+.animation-running-hover:hover {
+    animation-play-state: running;
+}
+
+.animation-running-active:active {
+    animation-play-state: running;
+}
+
+.gradient-lg {
+    background-size: 200% 200%;
+}
+
+.gradient-xl {
+    background-size: 400% 400%;
+}
+
 .text-title {
     font-family: 'Gilroy';
     letter-spacing: 0.3em;
