@@ -1,0 +1,181 @@
+:root {
+    --BackgroundColor: rgba(255, 255, 255, 0.11);
+    --BackgroundSize: 14px;
+    --BackgroundImage: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+
+    --NodeType: inline-block;
+    --NodeTypeFloat: right;
+    --NodeBackgroundColor: rgba(255, 255, 255, 0.76);
+    --NodeTextColor: #000000;
+    --NodeBorderSize: 1px;
+    --NodeBorderColor: #000000;
+    --NodeBorderRadius: 5px;
+    --NodeMinHeight: 40px;
+    --NodeMinWidth: 160px;
+    --NodePaddingTop: 15px;
+    --NodePaddingBottom: 15px;
+    --NodeBoxShadowHL: 0px;
+    --NodeBoxShadowVL: 2px;
+    --NodeBoxShadowBR: 15px;
+    --NodeBoxShadowS: 2px;
+    --NodeBoxShadowColor: rgba(40, 131, 228, 1);
+
+    --NodeHoverBackgroundColor: rgba(255, 255, 255, 1);
+    --NodeHoverTextColor: #000000;
+    --NodeHoverBorderSize: 2px;
+    --NodeHoverBorderColor: #000000;
+    --NodeHoverBorderRadius: 4px;
+
+    --NodeHoverBoxShadowHL: 0px;
+    --NodeHoverBoxShadowVL: 2px;
+    --NodeHoverBoxShadowBR: 15px;
+    --NodeHoverBoxShadowS: 2px;
+    --NodeHoverBoxShadowColor: #4ea9ff;
+
+    --NodeSelectedBackgroundColor: rgba(255, 255, 255, 0.26);
+    --NodeSelectedTextColor: rgba(0, 0, 0, 1);
+    --NodeSelectedBorderSize: 2px;
+    --NodeSelectedBorderColor: #000000;
+    --NodeSelectedBorderRadius: 4px;
+
+    --NodeSelectedBoxShadowHL: 0px;
+    --NodeSelectedBoxShadowVL: 2px;
+    --NodeSelectedBoxShadowBR: 12px;
+    --NodeSelectedBoxShadowS: 2px;
+    --NodeSelectedBoxShadowColor: #4ea9ff;
+
+    --InputBackgroundColor: #ffffff;
+    --InputBorderSize: 2px;
+    --InputBorderColor: #000000;
+    --InputBorderRadius: 40px;
+    --InputLeft: -20px;
+    --InputHeight: 9px;
+    --InputWidth: 5px;
+
+    --InputHoverBackgroundColor: #ffffff;
+    --InputHoverBorderSize: 2px;
+    --InputHoverBorderColor: #000000;
+    --InputHoverBorderRadius: 50px;
+
+    --OutputBackgroundColor: #ffffff;
+    --OutputBorderSize: 2px;
+    --OutputBorderColor: #000000;
+    --OutputBorderRadius: 50px;
+    --OutputRight: -11px;
+    --OutputHeight: 9px;
+    --OutputWidth: 5px;
+
+    --OutputHoverBackgroundColor: #ffffff;
+    --OutputHoverBorderSize: 2px;
+    --OutputHoverBorderColor: #000000;
+    --OutputHoverBorderRadius: 50px;
+
+    --LineWidth: 2px;
+    --LineColor: #4682b4;
+    --LineHoverColor: rgba(2, 11, 18, 1);
+    --LineSelectedColor: #43b993;
+
+    --RerouteBorderWidth: 3px;
+    --RerouteBorderColor: #000000;
+    --RerouteBackgroundColor: #ffffff;
+
+    --RerouteHoverBorderWidth: 2px;
+    --RerouteHoverBorderColor: #000000;
+    --RerouteHoverBackgroundColor: #ffffff;
+
+    --DeleteDisplay: block;
+    --DeleteColor: rgba(255, 255, 255, 1);
+    --DeleteBackgroundColor: #000000;
+    --DeleteBorderSize: 2px;
+    --DeleteBorderColor: #ffffff;
+    --DeleteBorderRadius: 50px;
+    --DeleteTop: -15px;
+
+    --DeleteHoverColor: #000000;
+    --DeleteHoverBackgroundColor: #ffffff;
+    --DeleteHoverBorderSize: 2px;
+    --DeleteHoverBorderColor: #000000;
+    --DeleteHoverBorderRadius: 50px;
+
+    --socket-size: 16px;
+}
+
+.App {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    text-align: center;
+    background: var(--BackgroundColor);
+    background-size: var(--BackgroundSize) var(--BackgroundSize);
+    background-image: var(--BackgroundImage);
+}
+
+.node {
+    display: var(--NodeType);
+    background: var(--NodeBackgroundColor);
+    border: var(--NodeBorderSize) solid var(--NodeBorderColor);
+    border-radius: var(--NodeBorderRadius);
+    height: auto;
+    padding-bottom: var(--NodePaddingBottom);
+    -webkit-box-shadow: var(--NodeBoxShadowHL) var(--NodeBoxShadowVL) var(--NodeBoxShadowBR) var(--NodeBoxShadowS)
+        var(--NodeBoxShadowColor);
+    box-shadow: var(--NodeBoxShadowHL) var(--NodeBoxShadowVL) var(--NodeBoxShadowBR) var(--NodeBoxShadowS)
+        var(--NodeBoxShadowColor);
+}
+
+.node .title {
+    color: var(--NodeTextColor);
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    background: #e0e6ff;
+    font-weight: bold;
+}
+
+.node .input-title {
+    color: var(--NodeTextColor);
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    font-weight: bold;
+}
+
+.node .output-title {
+    color: var(--NodeTextColor);
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    font-weight: bold;
+}
+
+.node input {
+    border: 2px solid black;
+    height: auto;
+    width: auto;
+    border-radius: var(--NodeBorderRadius);
+}
+
+.node:hover {
+    background: var(--NodeHoverBackgroundColor);
+    color: var(--NodeHoverTextColor);
+    border: var(--NodeHoverBorderSize) solid var(--NodeHoverBorderColor);
+    border-radius: var(--NodeHoverBorderRadius);
+    -webkit-box-shadow: var(--NodeHoverBoxShadowHL) var(--NodeHoverBoxShadowVL) var(--NodeHoverBoxShadowBR)
+        var(--NodeHoverBoxShadowS) var(--NodeHoverBoxShadowColor);
+    box-shadow: var(--NodeHoverBoxShadowHL) var(--NodeHoverBoxShadowVL) var(--NodeHoverBoxShadowBR)
+        var(--NodeHoverBoxShadowS) var(--NodeHoverBoxShadowColor);
+}
+
+.node.selected {
+    background: var(--NodeSelectedBackgroundColor);
+    color: var(--NodeSelectedTextColor);
+    border: var(--NodeSelectedBorderSize) solid var(--NodeSelectedBorderColor);
+    border-radius: var(--NodeSelectedBorderRadius);
+    -webkit-box-shadow: var(--NodeSelectedBoxShadowHL) var(--NodeSelectedBoxShadowVL) var(--NodeSelectedBoxShadowBR)
+        var(--NodeSelectedBoxShadowS) var(--NodeSelectedBoxShadowColor);
+    box-shadow: var(--NodeSelectedBoxShadowHL) var(--NodeSelectedBoxShadowVL) var(--NodeSelectedBoxShadowBR)
+        var(--NodeSelectedBoxShadowS) var(--NodeSelectedBoxShadowColor);
+}
+
+.socket {
+    border-radius: calc(var(--socket-size) / 2);
+    width: var(--socket-size);
+    height: var(--socket-size);
+}
+
+.socket.number-value {
+    background: #adc7ff;
+}
