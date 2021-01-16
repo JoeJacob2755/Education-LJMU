@@ -7,14 +7,12 @@ import './node-editor/style.css';
 
 function ProjectPage() {
     return (
-        <div className="w-screen h-screen-title bg-white flex flex-row">
+        <div className="w-screen h-screen-title bg-white flex flex-row bg-red">
             <div className="w-96 h-full">
                 <FeatureStore></FeatureStore>
             </div>
-            <div className="w-96 h-auto flex inset-shadow">
-                <div className="App">
-                    <div style={{ width: '100vw', height: '100vh' }} ref={(ref) => ref && createEditor(ref)} />
-                </div>
+            <div className="App w-full h-full flex inset-shadow">
+                <div ref={(ref) => ref && createEditor(ref)} />
             </div>
         </div>
     );

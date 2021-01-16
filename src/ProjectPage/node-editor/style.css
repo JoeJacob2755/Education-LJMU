@@ -1,5 +1,5 @@
 :root {
-    --BackgroundColor: rgba(255, 255, 255, 0.11);
+    --BackgroundColor: rgba(17, 24, 39);
     --BackgroundSize: 14px;
     --BackgroundImage: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);

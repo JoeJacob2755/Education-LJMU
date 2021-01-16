@@ -6,6 +6,7 @@
     "parser": "@typescript-eslint/parser",
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "parserOptions": {
+        "projects": "./tsconfig.json",
         "ecmaVersion": 2018,
         "sourceType": "module",
         "ecmaFeatures": {
@@ -18,6 +19,6 @@
         }
     },
     "rules": {
-        "no-unused-vars": "error"
+        "no-unused-vars": "off"
     }
 }

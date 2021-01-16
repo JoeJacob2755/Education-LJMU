@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 // require('@electron/remote').initialize();
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Tray, nativeImage } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -11,11 +11,14 @@ console.log('Electron started');
 function createWindow() {
     console.log('creating window');
     // Create the browser window.
+
+    // let tray = new Tray();
+
     const mainWindow = new BrowserWindow({
         width: 1920,
         height: 1080,
         titleBarStyle: 'hidden',
-
+        icon: nativeImage.createFromPath(path.join(__dirname, 'favicon.ico')),
         frame: process.platform === 'darwin',
         title: 'DeepTrack 2.0',
         // icon: path.join(__dirname, 'favicon16@4x.png'),

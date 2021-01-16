@@ -19,7 +19,8 @@
         "noUnusedLocals": false,
         "noUnusedParameters": true,
         "incremental": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "typeRoots": ["./@types", "./node-modules/@types"]
     },
     "include": ["src/**/*", "index.d.ts"],
     "exclude": ["node_modules", "build"]
