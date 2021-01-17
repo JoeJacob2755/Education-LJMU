@@ -1,12 +1,12 @@
 :root {
     --BackgroundColor: rgba(17, 24, 39);
-    --BackgroundSize: 14px;
-    --BackgroundImage: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    --BackgroundSize: 16px;
+    --BackgroundImage: linear-gradient(to right, rgba(107, 114, 128, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(107, 114, 128, 0.06) 1px, transparent 1px);
 
     --NodeType: inline-block;
     --NodeTypeFloat: right;
-    --NodeBackgroundColor: rgba(255, 255, 255, 0.76);
+    --NodeBackgroundColor: rgba(59, 130, 246);
     --NodeTextColor: #000000;
     --NodeBorderSize: 1px;
     --NodeBorderColor: #000000;
@@ -19,11 +19,11 @@
     --NodeBoxShadowVL: 2px;
     --NodeBoxShadowBR: 15px;
     --NodeBoxShadowS: 2px;
-    --NodeBoxShadowColor: rgba(40, 131, 228, 1);
+    --NodeBoxShadowColor: rgba(59, 130, 246, 1);
 
-    --NodeHoverBackgroundColor: rgba(255, 255, 255, 1);
+    --NodeHoverBackgroundColor: rgba(96, 165, 250, 1);
     --NodeHoverTextColor: #000000;
-    --NodeHoverBorderSize: 2px;
+    --NodeHoverBorderSize: 1px;
     --NodeHoverBorderColor: #000000;
     --NodeHoverBorderRadius: 4px;
 
@@ -33,9 +33,9 @@
     --NodeHoverBoxShadowS: 2px;
     --NodeHoverBoxShadowColor: #4ea9ff;
 
-    --NodeSelectedBackgroundColor: rgba(255, 255, 255, 0.26);
+    --NodeSelectedBackgroundColor: rgba(29, 78, 216);
     --NodeSelectedTextColor: rgba(0, 0, 0, 1);
-    --NodeSelectedBorderSize: 2px;
+    --NodeSelectedBorderSize: 1px;
     --NodeSelectedBorderColor: #000000;
     --NodeSelectedBorderRadius: 4px;
 
@@ -43,7 +43,7 @@
     --NodeSelectedBoxShadowVL: 2px;
     --NodeSelectedBoxShadowBR: 12px;
     --NodeSelectedBoxShadowS: 2px;
-    --NodeSelectedBoxShadowColor: #4ea9ff;
+    --NodeSelectedBoxShadowColor: rgba(29, 78, 216);
 
     --InputBackgroundColor: #ffffff;
     --InputBorderSize: 2px;

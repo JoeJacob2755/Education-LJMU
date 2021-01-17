@@ -5,6 +5,6 @@ window.addEventListener('DOMContentLoaded', () => {
     new customTitlebar.Titlebar({
         backgroundColor: customTitlebar.Color.fromHex('#111827'),
         shadow: true,
-        icon: join(__dirname, 'logo512.png'),
+        icon: './favicon.ico',
     });
 });
