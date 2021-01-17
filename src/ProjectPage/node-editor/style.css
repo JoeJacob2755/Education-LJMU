@@ -7,10 +7,10 @@
     --NodeType: inline-block;
     --NodeTypeFloat: right;
     --NodeBackgroundColor: rgba(59, 130, 246);
-    --NodeTextColor: #000000;
-    --NodeBorderSize: 1px;
+    --NodeTextColor: #fff;
+    --NodeBorderSize: 0px;
     --NodeBorderColor: #000000;
-    --NodeBorderRadius: 5px;
+    --NodeBorderRadius: 1em;
     --NodeMinHeight: 40px;
     --NodeMinWidth: 160px;
     --NodePaddingTop: 15px;
@@ -19,13 +19,13 @@
     --NodeBoxShadowVL: 2px;
     --NodeBoxShadowBR: 15px;
     --NodeBoxShadowS: 2px;
-    --NodeBoxShadowColor: rgba(59, 130, 246, 1);
+    --NodeBoxShadowColor: rgba(0, 0, 0, 1);
 
     --NodeHoverBackgroundColor: rgba(96, 165, 250, 1);
     --NodeHoverTextColor: #000000;
-    --NodeHoverBorderSize: 1px;
+    --NodeHoverBorderSize: 0px;
     --NodeHoverBorderColor: #000000;
-    --NodeHoverBorderRadius: 4px;
+    --NodeHoverBorderRadius: var(--NodeBorderRadius);
 
     --NodeHoverBoxShadowHL: 0px;
     --NodeHoverBoxShadowVL: 2px;
@@ -35,9 +35,9 @@
 
     --NodeSelectedBackgroundColor: rgba(29, 78, 216);
     --NodeSelectedTextColor: rgba(0, 0, 0, 1);
-    --NodeSelectedBorderSize: 1px;
+    --NodeSelectedBorderSize: 0px;
     --NodeSelectedBorderColor: #000000;
-    --NodeSelectedBorderRadius: 4px;
+    --NodeSelectedBorderRadius: var(--NodeBorderRadius);
 
     --NodeSelectedBoxShadowHL: 0px;
     --NodeSelectedBoxShadowVL: 2px;
@@ -125,7 +125,7 @@
 .node .title {
     color: var(--NodeTextColor);
     font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-    background: #e0e6ff;
+    background: transparent;
     font-weight: bold;
 }
 
