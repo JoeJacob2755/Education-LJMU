@@ -76,7 +76,7 @@ export const CreateProjectModal = connect(
                     </IconButton>
                 </div>
                 <div className="flex flex-row place-content-center justify-evenly">
-                    <FloatingCard className="min-w-min w-4/12 h-4/6 -mt-32">
+                    <FloatingCard className="min-w-min w-4/12 h-4/6 -mt-32 bg-gray-800">
                         <form className="w-full text-white">
                             <h1 className="text-bread text-3xl text-white">Configure the project.</h1>
                             <TextInput required={true} label="Project name" id="project-name-input"></TextInput>
@@ -104,7 +104,7 @@ export const CreateProjectModal = connect(
                             </SquareButton>
                         </form>
                     </FloatingCard>
-                    <FloatingCard className="min-w-min w-4/12 -mt-32">
+                    <FloatingCard className="min-w-min w-4/12 -mt-32 bg-gray-800 blue">
                         <div className="flex-grow" style={{ flexGrow: 2, flexShrink: 0 }}>
                             <h1 className="text-bread text-3xl text-white">Add your dataset.</h1>
                             <div className="text-bread w-full mt-4">
