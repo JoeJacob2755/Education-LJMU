@@ -67,14 +67,17 @@ const createPyProc = () => {
 const start_server = () => {
     let path_to_python_dir = path.join(__dirname, '..', 'python');
 
+    const is_dev = path_to_python_dir.includes('app.asar');
+
     // When in production, the path to the python files is slightly different. This corrects this.
     // In development, this command does nothing.
-    path_to_python_dir = path_to_python_dir.replace('app.asar', 'app.asar.unpacked');
+    if (!is_dev) path_to_python_dir = path_to_python_dir.replace('app.asar', 'app.asar.unpacked');
 
-    // The root working directory of the pythonn file
-    // let root = path.resolve(__dirname + '/../').replace('app.asar', 'app.asar.unpacked');
+    if (is_dev) {
+        const path_to_python_file = path.join(path_to_python_dir, 'server.py');
+        return require('child_process').exec('py ' + path_to_python_file);
+    }
 
-    // const path_to_exe_file = path.join(path_to_python_dir, "dist", "server", "server")
     return path_to_python_dir;
 
     // Start the python server
