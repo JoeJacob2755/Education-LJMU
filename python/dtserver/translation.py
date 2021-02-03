@@ -3,11 +3,10 @@ import numpy as np
 from PIL import Image
 
 
-def normalize_data(self, data, normalization):
+def normalize_data(data, normalization):
 
     # Ensure is array
-    data = np.array(data)
-
+    data = np.array(data)[..., 0]
     if data.ndim == 2:
         data = np.expand_dim(data, axis=-1)
 
@@ -22,16 +21,18 @@ def normalize_data(self, data, normalization):
             yield channel * 255, channel_min, channel_max
 
 
-def format_data_as_image(self, data, normalization="grayscale"):
+def format_data_as_image(data, normalization="grayscale"):
 
     output = []
 
     for channel, vmin, vmax in normalize_data(data, normalization):
-        channel = Image.fromarray(channel)
+        channel = Image.fromarray(channel.astype(np.uint8))
         tmpfile = io.BytesIO()
         channel.save(tmpfile, format="bmp")
 
-        tmpfile.seel(0)
-        output.append({"data": tmpfile.get_value(), "vmin": vmin, "vmax": vmax})
+        tmpfile.seek(0)
+        output.append(
+            {"data": tmpfile.getvalue(), "vmin": float(vmin), "vmax": float(vmax)}
+        )
 
     return output

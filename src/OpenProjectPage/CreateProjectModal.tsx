@@ -4,10 +4,12 @@ import { ArrowBack } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { closeCreateProjectModal, createAndSetProject } from '../reducers/actions';
 import { InlineSelectInput, SelectInput, TextInput, TextInputWithButton } from '../UI/inputs';
-import { getProjectConfigPath, openProjectPicker } from '../utils';
+import { getProjectConfigPath, openDatasetPicker, openProjectPicker } from '../utils';
 import { SquareButton } from '../UI/buttons';
 import { CreateAndSetProjectPayload } from '../reducers/types';
 import { FloatingCard } from '../UI/cards';
+import DataElement from './DataElement';
+import PythonApi from '../resources/PythonApi';
 
 const fs = window.require('fs');
 
@@ -21,6 +23,10 @@ export const CreateProjectModal = connect(
     null,
     mapDispatch,
 )((props: CreateProjectModalProps & typeof mapDispatch) => {
+    const [dataset, setDataset] = React.useState<string[]>([]);
+
+    console.log(dataset);
+
     // On press select workspace path
     const selectWorkspacePath = () => {
         const selection = openProjectPicker();
@@ -40,6 +46,26 @@ export const CreateProjectModal = connect(
                 inputnode.value = selection[0];
             }
         }
+    };
+
+    const selectDatasetFiles = () => {
+        const selection = openDatasetPicker();
+
+        if (selection) {
+            setDataset(selection);
+
+            updateActiveDataset();
+        }
+    };
+
+    const updateActiveDataset = (selection?: string[]) => {
+        if (!selection) {
+            selection = dataset;
+        }
+        console.log('setting dataset');
+        PythonApi.setActiveDataset([selection, null]).catch((err) => {
+            alert('Failure updating the dataset' + err.message);
+        });
     };
 
     // On form submit
@@ -104,8 +130,8 @@ export const CreateProjectModal = connect(
                             </SquareButton>
                         </form>
                     </FloatingCard>
-                    <FloatingCard className="min-w-min w-4/12 -mt-32 bg-gray-800 blue">
-                        <div className="flex-grow" style={{ flexGrow: 2, flexShrink: 0 }}>
+                    <FloatingCard className="min-w-min w-4/12 -mt-32 bg-gray-800 blue overflow-hidden">
+                        <div className="flex-grow " style={{ flexGrow: 2, flexShrink: 0 }}>
                             <h1 className="text-bread text-3xl text-white">Add your dataset.</h1>
                             <div className="text-bread w-full mt-4">
                                 <span>My dataset consists of</span>
@@ -128,7 +154,14 @@ export const CreateProjectModal = connect(
                                     <option>video(s)</option>
                                 </InlineSelectInput>
                                 <span className="whitespace-pre">.</span>
+
+                                <SquareButton onClick={selectDatasetFiles}>Pick dataset</SquareButton>
                             </div>
+                        </div>
+                        <div className="overflow-y-auto -ml-7 -mr-7">
+                            {dataset.map((e, i) => (
+                                <DataElement key={i} src={e}></DataElement>
+                            ))}
                         </div>
                     </FloatingCard>
                 </div>

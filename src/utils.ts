@@ -24,6 +24,8 @@ function generateUUID(): string {
     });
 }
 
+// PROJECT -----------------------------------------------------
+
 export function openProjectPicker(): string[] | undefined {
     return dialog.showOpenDialogSync({ properties: ['openDirectory'] });
 }
@@ -76,3 +78,11 @@ export function loadProject(path: string): Project | null {
     }
     return null;
 }
+
+// DATASET -----------------------------------------------------
+
+export function openDatasetPicker(): string[] | undefined {
+    return dialog.showOpenDialogSync({ properties: ['multiSelections'] });
+}
+
+// UTILS -------------------------------------------------------
