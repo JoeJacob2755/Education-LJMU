@@ -184,8 +184,11 @@ $NodeBackgroundColor: rgb(59, 130, 246);
     left: 0;
     top: 10;
     position: fixed;
-    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     width: 200px;
+    background-color: $NodeBackgroundColor;
+    border-radius: var(--NodeBorderRadius);
     // margin-top: 20px;
     // margin-left: -$width/2;
 }
@@ -194,7 +197,7 @@ $NodeBackgroundColor: rgb(59, 130, 246);
     content: '►';
     position: absolute;
     opacity: 0.6;
-    right: 5px;
+    right: 10px;
     top: 5px;
 }
 
@@ -208,14 +211,13 @@ $NodeBackgroundColor: rgb(59, 130, 246);
 .item {
     color: #fff;
     padding: 4px;
-    border-bottom: 1px solid $NodeBackgroundColor;
     background-color: $NodeBackgroundColor;
+    border-bottom: 1px solid $NodeBackgroundColor;
     cursor: pointer;
     width: 100%;
     position: relative;
 }
 .item:first-child {
-    border-top-left-radius: var(--NodeBorderRadius);
     border-top-right-radius: var(--NodeBorderRadius);
 }
 
@@ -226,4 +228,12 @@ $NodeBackgroundColor: rgb(59, 130, 246);
 
 .item:hover {
     background-color: lighten($NodeBackgroundColor, 4%);
+}
+
+.context-search {
+    margin: 5px;
+    width: 90%;
+    border-radius: 20px;
+    text-indent: 10px;
+    border: 2px solid black;
 }
