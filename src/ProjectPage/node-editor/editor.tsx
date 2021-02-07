@@ -4,7 +4,7 @@ import Rete, { Node } from 'rete';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 // @ts-ignore
-import ContextMenuPlugin from 'rete-context-menu-plugin';
+import ContextMenuPlugin, { ReactMenu } from './ContextMenu/index.js';
 // @ts-ignore
 import AreaPlugin from 'rete-area-plugin';
 import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
@@ -91,7 +91,13 @@ export async function createEditor(container: HTMLElement) {
     var editor = new Rete.NodeEditor('demo@0.1.0', container);
     editor.use(ConnectionPlugin);
     editor.use(ReactRenderPlugin);
-    editor.use(ContextMenuPlugin);
+    editor.use(ContextMenuPlugin, {
+        Menu: ReactMenu,
+        delay: 0,
+        allocate(component: FeatureComponent) {
+            return [component.feature.package];
+        },
+    });
 
     var engine = new Rete.Engine('demo@0.1.0');
 

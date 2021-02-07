@@ -1,12 +1,12 @@
+$NodeBackgroundColor: rgb(59, 130, 246);
+
 :root {
     --BackgroundColor: rgba(17, 24, 39);
     --BackgroundSize: 16px;
     --BackgroundImage: linear-gradient(to right, rgba(107, 114, 128, 0.06) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(107, 114, 128, 0.06) 1px, transparent 1px);
-
     --NodeType: inline-block;
     --NodeTypeFloat: right;
-    --NodeBackgroundColor: rgba(59, 130, 246);
     --NodeTextColor: #fff;
     --NodeBorderSize: 0px;
     --NodeBorderColor: #000000;
@@ -111,7 +111,7 @@
 
 .node {
     display: var(--NodeType);
-    background: var(--NodeBackgroundColor);
+    background: $NodeBackgroundColor;
     border: var(--NodeBorderSize) solid var(--NodeBorderColor);
     border-radius: var(--NodeBorderRadius);
     height: auto;
@@ -178,4 +178,52 @@
 
 .socket.number-value {
     background: #adc7ff;
+}
+
+.context-menu {
+    left: 0;
+    top: 10;
+    position: fixed;
+    padding: 10px;
+    width: 200px;
+    // margin-top: 20px;
+    // margin-left: -$width/2;
+}
+
+.hasSubitems:after {
+    content: '►';
+    position: absolute;
+    opacity: 0.6;
+    right: 5px;
+    top: 5px;
+}
+
+.subitems {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: fit-content;
+}
+
+.item {
+    color: #fff;
+    padding: 4px;
+    border-bottom: 1px solid $NodeBackgroundColor;
+    background-color: $NodeBackgroundColor;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+}
+.item:first-child {
+    border-top-left-radius: var(--NodeBorderRadius);
+    border-top-right-radius: var(--NodeBorderRadius);
+}
+
+.item:last-child {
+    border-bottom-left-radius: var(--NodeBorderRadius);
+    border-bottom-right-radius: var(--NodeBorderRadius);
+}
+
+.item:hover {
+    background-color: lighten($NodeBackgroundColor, 4%);
 }

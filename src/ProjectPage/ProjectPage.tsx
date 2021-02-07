@@ -4,7 +4,7 @@ import FeatureStore from './CanvasOverlay';
 
 import { createEditor } from './node-editor/editor';
 
-import './node-editor/style.css';
+import './node-editor/style.scss';
 
 function ProjectPage() {
     return (
