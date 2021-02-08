@@ -1,14 +1,14 @@
 import React from 'react';
 import Rete, { Node } from 'rete';
 // @ts-ignore
-import ReactRenderPlugin from 'rete-react-render-plugin';
+import ReactRenderPlugin, { Node as NodeComponent } from 'rete-react-render-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 // @ts-ignore
 import ContextMenuPlugin, { ReactMenu } from './ContextMenu/index.js';
 // @ts-ignore
 import AreaPlugin from 'rete-area-plugin';
 import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
-import PythonApi, { FeatureType } from '../../resources/PythonApi';
+import PythonApi, { FeatureType, PropertyType } from '../../resources/PythonApi';
 import { ViewModuleSharp } from '@material-ui/icons';
 
 var stringSocket = new Rete.Socket('String');
@@ -16,9 +16,12 @@ var stringSocket = new Rete.Socket('String');
 const FeatureControlComponent = ({
     value,
     onChange,
+    defaultValue,
 }: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => (
     <input
+        className="feature-control-input"
         type="text"
+        defaultValue={defaultValue}
         value={value}
         ref={(ref) => {
             ref && ref.addEventListener('pointerdown', (e) => e.stopPropagation());
@@ -33,6 +36,7 @@ class FeatureControl extends Rete.Control {
     props: {
         readonly: boolean;
         value: string | undefined;
+        defaultValue?: string;
         onChange: ((event: React.ChangeEvent<HTMLInputElement>) => void) | undefined;
     };
 
@@ -59,29 +63,78 @@ class FeatureControl extends Rete.Control {
     }
 }
 
-class FeatureComponent extends Rete.Component {
+export class FeatureComponent extends Rete.Component {
     feature: FeatureType;
+    package: string;
     constructor(feature_name: string, feature: FeatureType) {
         super(feature_name);
-
+        this.package = feature.package;
         this.feature = feature;
     }
 
     async builder(node: Node) {
-        Object.keys(this.feature.properties).forEach((name) => {
-            node.addInput(new Rete.Input(name, name, stringSocket));
-        });
         var inpt = new Rete.Input('f_inpt', 'input', stringSocket);
 
         var outp = new Rete.Output('f_outp', 'output', stringSocket);
-        var ctrl = new FeatureControl(this.editor, 'f_inpt', node, false);
+        // var ctrl = new FeatureControl(this.editor, 'f_inpt', node, false);
 
-        inpt.addControl(new FeatureControl(this.editor, 'f_inpt', node));
-        node.addInput(inpt).addControl(ctrl).addOutput(outp);
+        // inpt.addControl(new FeatureControl(this.editor, 'f_inpt', node));
+        node.addInput(inpt).addOutput(outp);
+
+        const property_node = this.editor?.components?.get('Property');
+
+        Object.keys(this.feature.properties).forEach((name, idx) => {
+            const input = new Rete.Input(name, name, stringSocket);
+            node.addInput(input);
+            if (property_node) {
+                property_node.createNode({}).then((p_node: Node) => {
+                    let iters = 0;
+                    p_node.controls.get('p_output').props.defaultValue = this.feature.properties[name].default;
+                    // This is a bad hack. It's done since the position of the node is not known at this point.
+                    const c = setInterval(() => {
+                        iters++;
+                        if ((node.position[0] !== 0 && node.position[1] !== 0) || iters > 5) {
+                            p_node.meta = {};
+                            p_node.position[0] = node.position[0] - 300;
+                            p_node.position[1] = node.position[1] + 115 + 44 * idx;
+                            this.editor?.addNode(p_node);
+
+                            // Connect
+                            const output = p_node.outputs.get('p_output');
+                            if (input && output) {
+                                this.editor?.connect(output, input);
+                            }
+
+                            // console.log(p_node.data, this.feature.properties[name].default);
+                            clearInterval(c);
+                        }
+                    }, 100);
+                });
+            }
+        });
     }
 
     worker(node: NodeData, _1: WorkerInputs, outputs: WorkerOutputs) {
         outputs['f_out'] = node.data.f_inpt;
+    }
+}
+
+export class PropertyComponent extends Rete.Component {
+    // property: PropertyType;
+
+    constructor() {
+        super('Property');
+        // this.property = property;
+    }
+
+    async builder(node: Node) {
+        const output = new Rete.Output('p_output', '', stringSocket);
+        const control = new FeatureControl(this.editor, 'p_output', node, false);
+        node.addOutput(output).addControl(control);
+    }
+
+    worker(node: NodeData, _1: WorkerInputs, outputs: WorkerOutputs) {
+        outputs['p_output'] = node.data.p_output;
     }
 }
 
@@ -95,7 +148,7 @@ export async function createEditor(container: HTMLElement) {
         Menu: ReactMenu,
         delay: 0,
         allocate(component: FeatureComponent) {
-            return [component.feature.package];
+            return [component.package];
         },
     });
 
@@ -111,6 +164,9 @@ export async function createEditor(container: HTMLElement) {
         });
     });
 
+    const p_c = new PropertyComponent();
+    editor.register(p_c);
+    engine.register(p_c);
     // @ts-ignore
     editor.on('process nodecreated noderemoved connectioncreated connectionremoved', async () => {
         console.log('process');

@@ -237,3 +237,21 @@ $NodeBackgroundColor: rgb(59, 130, 246);
     text-indent: 10px;
     border: 2px solid black;
 }
+
+.property {
+    .title {
+        display: none;
+    }
+    .output {
+        // position: absolute;
+        margin-top: -4px;
+        margin-bottom: -21px;
+    }
+    .control {
+        height: 25px;
+    }
+}
+
+.feature-control-input {
+    text-indent: 10px;
+}
