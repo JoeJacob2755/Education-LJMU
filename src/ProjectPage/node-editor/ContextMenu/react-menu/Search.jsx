@@ -37,7 +37,7 @@ class Item extends React.Component<ContextSearchProps> {
             >
                 {title}
                 {subitems && visibleSubitems && (
-                    <div className="subitems">
+                    <div className="subitems bg-">
                         {subitems.map((subitem) => (
                             <Item key={subitem.title} item={subitem} ItemComponent={ItemComponent} />
                         ))}
