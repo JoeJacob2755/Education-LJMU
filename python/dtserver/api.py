@@ -1,11 +1,12 @@
 import numpy as np
+import functools
 
 from . import datasets, translation, deeptrack_wrapper
+from .. import grpc_routing_pb2_grpc, grpc_routing_pb2
 
 
-class PyAPI:
+class PyAPI(grpc_routing_pb2_grpc.RoutingServicerServicer):
     def __init__(self):
-
         self.active_dataset = None
 
     # ==============================================
@@ -34,5 +35,7 @@ class PyAPI:
         return image
 
     # FEATURES
-    def get_available_features(self):
+    def GetFeatures(
+        self, request: grpc_routing_pb2.NoneLike, unused_context
+    ) -> grpc_routing_pb2.AsyncIterable[grpc_routing_pb2.Feature]:
         return deeptrack_wrapper.get_all_features_for_frontend()

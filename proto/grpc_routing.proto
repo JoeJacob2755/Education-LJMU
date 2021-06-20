@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+// import "proto/features.proto";
+
+message NoneLike {
+
+}
+
+message Property {
+    string name = 1;
+    string value = 2;
+    optional string description = 3;
+}
+
+message Feature {
+    string module = 1;
+    string name = 2;
+    repeated Property properties = 3;
+} 
+
+
+
+service Routing {
+    rpc GetFeatures (NoneLike) returns (stream Feature);
+}

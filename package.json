@@ -9,7 +9,8 @@
         "start-prod": "npm run electron",
         "electron": "electron . --allow-file-access-from-files",
         "start-server": ".\\python\\.venv\\Scripts\\activate.bat && py .\\python\\server.py",
-        "test-python": "cd python && python -m unittest"
+        "test-python": "cd python && python -m unittest",
+        "compile-proto": ".\\python\\.venv\\Scripts\\activate.bat && py -m grpc_tools.protoc -Iproto -I. --python_out=./python --grpc_python_out=./python proto/grpc_routing.proto"
     },
     "keywords": [],
     "author": "",
