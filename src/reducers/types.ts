@@ -5,6 +5,8 @@ export type Project =
           path: string;
           goal: string;
           created: Date;
+          pages: string[];
+          version: number;
       }
     | Record<string, never>;
 
@@ -40,4 +42,13 @@ export interface CloseCreateProjectModal {
     type: 'CLOSE_CREATE_PROJECT_MODAL';
 }
 
-export type Action = SetProjectAction | OpenCreateProjectModal | CloseCreateProjectModal;
+export const ADD_PAGE_TO_PROJECT = 'ADD_PAGE_TO_PROJECT';
+export type AddPageToProjectPayload = {
+    page: string;
+};
+export interface AddPageToProject {
+    type: 'ADD_PAGE_TO_PROJECT';
+    payload: AddPageToProjectPayload;
+}
+
+export type Action = SetProjectAction | OpenCreateProjectModal | CloseCreateProjectModal | AddPageToProject;

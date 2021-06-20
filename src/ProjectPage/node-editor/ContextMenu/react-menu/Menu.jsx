@@ -57,7 +57,7 @@ const Menu = (props: ContextMenuProps) => {
         } else {
             const allItems = [];
             const collectItems = (item: ContextItemType) => {
-                if (item.title.toLowerCase().includes(search.toLowerCase())) {
+                if (item.title?.toLowerCase()?.includes(search.toLowerCase())) {
                     allItems.push(item);
                 }
                 if (item.subitems) {

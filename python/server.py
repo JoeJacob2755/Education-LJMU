@@ -3,6 +3,7 @@
 import zerorpc
 import gevent
 import signal
+import deeptrack as dt
 from dtserver import PyAPI
 
 

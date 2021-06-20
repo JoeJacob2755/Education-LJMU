@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import './UI/styles.css';
 import 'tailwindcss/tailwind.css';
+import './resources/ipc';
 import { connect } from 'react-redux';
 import { State } from './reducers/types';
 import OpenProjectPage, { CreateProjectModal } from './OpenProjectPage/';

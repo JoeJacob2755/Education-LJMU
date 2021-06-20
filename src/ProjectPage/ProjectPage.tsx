@@ -1,18 +1,16 @@
 import React from 'react';
+import Canvas from './Canvas';
 import CanvasOverlay from './CanvasOverlay';
-import FeatureStore from './CanvasOverlay';
 
 import { createEditor } from './node-editor/editor';
 
 import './node-editor/style.scss';
+import Pages from './Pages';
 
 function ProjectPage() {
     return (
         <div className="w-screen h-screen-title bg-white flex flex-row bg-gr">
-            <div className="App w-full h-full flex inset-shadow">
-                <div ref={(ref) => ref && createEditor(ref)} />
-            </div>
-            <CanvasOverlay></CanvasOverlay>
+            <Canvas />
         </div>
     );
 }

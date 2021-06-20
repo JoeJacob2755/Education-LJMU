@@ -4,11 +4,11 @@
     "description": "",
     "main": "public/electron.js",
     "scripts": {
-        "start": "craco start",
+        "start": "concurrently \"craco start\" \"py ./python/server.py\"",
         "start-dev": "node serve-electron.js",
         "start-prod": "npm run electron",
         "electron": "electron . --allow-file-access-from-files",
-        "start-server": "py ./python/server.py",
+        "start-server": ".\\python\\.venv\\Scripts\\activate.bat && py .\\python\\server.py",
         "test-python": "cd python && python -m unittest"
     },
     "keywords": [],
@@ -39,6 +39,7 @@
         "prettier": "^2.2.1",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
+        "react-draggable-tab": "^0.10.1",
         "react-redux": "^7.2.2",
         "react-scripts": "4.0.1",
         "redux": "^4.0.5",
@@ -69,7 +70,9 @@
     "dependencies": {
         "@treverix/custom-electron-titlebar": "^4.1.7",
         "@treverix/remote": "^0.1.1",
+        "concurrently": "^6.2.0",
         "custom-electron-titlebar": "^3.2.5",
+        "electron-utils": "^1.0.9",
         "node-gyp": "^7.1.2",
         "rete": "^1.4.5-rc.1",
         "rete-area-plugin": "^0.2.1",

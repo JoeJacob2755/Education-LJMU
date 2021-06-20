@@ -1,6 +1,8 @@
 import { join } from 'path';
+import { addPageToProject, setProject } from './reducers/actions';
+import store from './reducers/store';
 import { Project } from './reducers/types';
-import { CONFIG_NAME } from './resources/constants';
+import { CONFIG_NAME, PAGE_EXTENSION } from './resources/constants';
 
 const { dialog } = window.require('electron').remote;
 const fs = window.require('fs');
@@ -67,16 +69,72 @@ export async function saveProjectToLS(project: Project) {
     localStorage.setItem(project.id, JSON.stringify(project));
 }
 
-export function loadProject(path: string): Project | null {
+export function loadProjectFromPath(path: string): Project | null {
     const json = fs.readFileSync(path);
     if (json) {
         const config = JSON.parse(json);
         const storage_response = localStorage.getItem(config.id || '');
         if (storage_response) {
-            return JSON.parse(storage_response) as Project;
+            const project = JSON.parse(storage_response) as Project;
+            updateProject(project);
+            return project;
         }
     }
     return null;
+}
+
+export const openProject = () => {
+    const results = openProjectFilePicker();
+    if (results) {
+        const project = loadProjectFromPath(results[0]);
+        if (project) {
+            store.dispatch(setProject(project));
+        }
+    }
+};
+
+function updateProject(project: Project) {
+    if (!project.version) {
+        project.version = 0;
+    }
+
+    return updateProjectToOne(project);
+}
+
+function updateProjectToOne(project: Project) {
+    if (project.version >= 1) return project;
+
+    project.pages = [];
+    project.version = 1;
+    return project;
+}
+
+// PAGES -------------------------------------------------------
+
+export function openAndAddFileToPages() {
+    const ext = PAGE_EXTENSION;
+    const results = dialog.showOpenDialogSync({
+        filters: [{ name: 'DeepTrack page', extensions: [ext] }],
+    });
+
+    store.dispatch();
+}
+
+export function newFile() {
+    console.log('New file!');
+    if (store.getState().project.id) {
+        const ext = PAGE_EXTENSION;
+        const results = dialog.showSaveDialogSync({
+            filters: [{ name: 'DeepTrack page', extensions: [ext] }],
+        });
+        if (results) {
+            if (!fs.existsSync(results)) {
+                console.log('writing to', results);
+                fs.writeFileSync(results, '{}');
+                store.dispatch(addPageToProject({ page: results }));
+            }
+        }
+    }
 }
 
 // DATASET -----------------------------------------------------
