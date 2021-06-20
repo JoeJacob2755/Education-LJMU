@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package dtserver.grpc;
 // import "proto/features.proto";
 
 message NoneLike {
@@ -9,7 +10,7 @@ message NoneLike {
 message Property {
     string name = 1;
     string value = 2;
-    optional string description = 3;
+    string description = 3;
 }
 
 message Feature {

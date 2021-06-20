@@ -17,7 +17,7 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 1920,
         height: 1080,
-        titleBarStyle: 'hidden',
+        // titleBarStyle: 'hidden',
         icon: nativeImage.createFromPath(path.join(__dirname, 'favicon.ico')),
         frame: process.platform === 'darwin',
         title: 'DeepTrack 2.0',
@@ -46,6 +46,7 @@ function createWindow() {
             slashes: true,
         });
 
+    console.log('Starting from', startUrl);
     mainWindow.loadURL(startUrl);
 }
 

@@ -1,11 +1,17 @@
+from typing import AsyncIterable
 import numpy as np
 import functools
 
-from . import datasets, translation, deeptrack_wrapper
-from .. import grpc_routing_pb2_grpc, grpc_routing_pb2
+from . import (
+    datasets,
+    translation,
+    deeptrack_wrapper,
+)
+
+import grpc_routing_pb2_grpc, grpc_routing_pb2
 
 
-class PyAPI(grpc_routing_pb2_grpc.RoutingServicerServicer):
+class PyAPI(grpc_routing_pb2_grpc.RoutingServicer):
     def __init__(self):
         self.active_dataset = None
 
@@ -37,5 +43,5 @@ class PyAPI(grpc_routing_pb2_grpc.RoutingServicerServicer):
     # FEATURES
     def GetFeatures(
         self, request: grpc_routing_pb2.NoneLike, unused_context
-    ) -> grpc_routing_pb2.AsyncIterable[grpc_routing_pb2.Feature]:
+    ) -> AsyncIterable[grpc_routing_pb2.Feature]:
         return deeptrack_wrapper.get_all_features_for_frontend()

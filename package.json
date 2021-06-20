@@ -4,13 +4,14 @@
     "description": "",
     "main": "public/electron.js",
     "scripts": {
-        "start": "concurrently \"craco start\" \"py ./python/server.py\"",
+        "start": "concurrently \"craco start\" \"yarn electron\"",
         "start-dev": "node serve-electron.js",
         "start-prod": "npm run electron",
-        "electron": "electron . --allow-file-access-from-files",
-        "start-server": ".\\python\\.venv\\Scripts\\activate.bat && py .\\python\\server.py",
+        "electron": "set ELECTRON_START_URL=http://localhost:3000 && electron . --allow-file-access-from-files",
+        "start-server": "cd python && py -m pipenv run py server.py",
         "test-python": "cd python && python -m unittest",
-        "compile-proto": ".\\python\\.venv\\Scripts\\activate.bat && py -m grpc_tools.protoc -Iproto -I. --python_out=./python --grpc_python_out=./python proto/grpc_routing.proto"
+        "compile-proto": "py -m pipenv run py -m grpc_tools.protoc --proto_path ./proto/ --python_out=./python --grpc_python_out=./python proto/grpc_routing.proto && ",
+        "compile-proto:ts": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/resources proto/grpc_routing.proto"
     },
     "keywords": [],
     "author": "",
@@ -69,6 +70,8 @@
         ]
     },
     "dependencies": {
+        "@grpc/grpc-js": "^1.3.2",
+        "@grpc/proto-loader": "^0.6.2",
         "@treverix/custom-electron-titlebar": "^4.1.7",
         "@treverix/remote": "^0.1.1",
         "concurrently": "^6.2.0",
