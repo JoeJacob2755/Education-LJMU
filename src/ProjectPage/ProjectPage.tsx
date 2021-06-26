@@ -8,11 +8,7 @@ import './node-editor/style.scss';
 import Pages from './Pages';
 
 function ProjectPage() {
-    return (
-        <div className="w-screen h-screen-title bg-white flex flex-row bg-gr">
-            <Canvas />
-        </div>
-    );
+    return <Pages></Pages>;
 }
 
 export default ProjectPage;

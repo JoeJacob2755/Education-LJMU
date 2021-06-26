@@ -10,17 +10,23 @@ message NoneLike {
 message Property {
     string name = 1;
     string value = 2;
-    string description = 3;
+    repeated string description = 3;
 }
 
 message Feature {
-    string module = 1;
-    string name = 2;
-    repeated Property properties = 3;
+    
+    // string module = 1;
+    string name = 1;
+    string package = 2;
+    string description = 3;
+    repeated Property properties = 4;
+    
 } 
 
-
+message FeatureList {
+    repeated Feature features = 1;
+}
 
 service Routing {
-    rpc GetFeatures (NoneLike) returns (stream Feature);
+    rpc GetFeatures (NoneLike) returns (FeatureList);
 }

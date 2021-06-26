@@ -2,6 +2,7 @@ import deeptrack as dt
 import inspect
 import re
 from .utils import safe_issubclass
+import grpc_routing_pb2
 
 # Do not copy features from these modules
 MODULE_BLACKLIST = ["deeptrack"]
@@ -24,7 +25,7 @@ FEATURE_BLACKLIST = [
     "Noise",
 ]
 
-features = {}
+features = []
 
 modules = inspect.getmembers(dt, inspect.ismodule)
 
@@ -78,6 +79,7 @@ for module_name, module in modules:
                 except:
                     pass
 
+                properties = []
                 for idx in range(len(arglist)):
                     annotation = False
 
@@ -118,25 +120,30 @@ for module_name, module in modules:
 
                     if arglist[idx] not in arg_dict:
                         arg_dict[arglist[idx]] = {
-                            "default": "",
-                            "annotation": "",
-                            "type": "property",
+                            "value": "",
+                            # "annotation": "",
+                            # "type": "property",
                         }
 
                     if default is not None:
-                        arg_dict[arglist[idx]]["default"] = repr(default)
-                    if annotation:
-                        arg_dict[arglist[idx]]["annotation"] = annotation
+                        arg_dict[arglist[idx]]["value"] = repr(default)
+                    # if annotation:
+                    #     arg_dict[arglist[idx]]["annotation"] = annotation
                     if docstring_search and "description" not in arg_dict[arglist[idx]]:
                         arg_dict[arglist[idx]]["description"] = docstring_search
 
-            module_dict[class_name] = {
-                "type": "feature",
-                "package": module_name,
-                "name": class_name,
-                "description": description,
-                "properties": arg_dict,
-            }
+                    properties.append(
+                        grpc_routing_pb2.Property(**arg_dict[arglist[idx]])
+                    )
+
+            features.append(
+                grpc_routing_pb2.Feature(
+                    package=module_name,
+                    name=class_name,
+                    description=description,
+                    properties=properties,
+                )
+            )
 
     if module_dict:
         features[module_name] = module_dict
@@ -147,8 +154,11 @@ def get_all_features_for_frontend():
 
 
 def get_feature_for_frontend(module_name: str, feature_name: str):
-    available = get_all_features_for_frontend()
-    return available[module][feature_name]
+    for feature in features:
+        if feature.package == module_name and feature.name == feature_name:
+            return feature
+
+    return None
 
 
 def get_feature_for_backend(module_name: str, feature_name: str):

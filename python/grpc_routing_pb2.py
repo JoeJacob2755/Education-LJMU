@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12grpc_routing.proto\x12\rdtserver.grpc\"\n\n\x08NoneLike\"<\n\x08Property\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\"T\n\x07\x46\x65\x61ture\x12\x0e\n\x06module\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12+\n\nproperties\x18\x03 \x03(\x0b\x32\x17.dtserver.grpc.Property2K\n\x07Routing\x12@\n\x0bGetFeatures\x12\x17.dtserver.grpc.NoneLike\x1a\x16.dtserver.grpc.Feature0\x01\x62\x06proto3'
+  serialized_pb=b'\n\x12grpc_routing.proto\x12\rdtserver.grpc\"\n\n\x08NoneLike\"<\n\x08Property\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x03(\t\"j\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07package\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12+\n\nproperties\x18\x04 \x03(\x0b\x32\x17.dtserver.grpc.Property\"7\n\x0b\x46\x65\x61tureList\x12(\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0b\x32\x16.dtserver.grpc.Feature2M\n\x07Routing\x12\x42\n\x0bGetFeatures\x12\x17.dtserver.grpc.NoneLike\x1a\x1a.dtserver.grpc.FeatureListb\x06proto3'
 )
 
 
@@ -74,8 +74,8 @@ _PROPERTY = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='description', full_name='dtserver.grpc.Property.description', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -105,22 +105,29 @@ _FEATURE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='module', full_name='dtserver.grpc.Feature.module', index=0,
+      name='name', full_name='dtserver.grpc.Feature.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='name', full_name='dtserver.grpc.Feature.name', index=1,
+      name='package', full_name='dtserver.grpc.Feature.package', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='properties', full_name='dtserver.grpc.Feature.properties', index=2,
-      number=3, type=11, cpp_type=10, label=3,
+      name='description', full_name='dtserver.grpc.Feature.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='properties', full_name='dtserver.grpc.Feature.properties', index=3,
+      number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -138,13 +145,47 @@ _FEATURE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=111,
-  serialized_end=195,
+  serialized_end=217,
+)
+
+
+_FEATURELIST = _descriptor.Descriptor(
+  name='FeatureList',
+  full_name='dtserver.grpc.FeatureList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='features', full_name='dtserver.grpc.FeatureList.features', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=219,
+  serialized_end=274,
 )
 
 _FEATURE.fields_by_name['properties'].message_type = _PROPERTY
+_FEATURELIST.fields_by_name['features'].message_type = _FEATURE
 DESCRIPTOR.message_types_by_name['NoneLike'] = _NONELIKE
 DESCRIPTOR.message_types_by_name['Property'] = _PROPERTY
 DESCRIPTOR.message_types_by_name['Feature'] = _FEATURE
+DESCRIPTOR.message_types_by_name['FeatureList'] = _FEATURELIST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 NoneLike = _reflection.GeneratedProtocolMessageType('NoneLike', (_message.Message,), {
@@ -168,6 +209,13 @@ Feature = _reflection.GeneratedProtocolMessageType('Feature', (_message.Message,
   })
 _sym_db.RegisterMessage(Feature)
 
+FeatureList = _reflection.GeneratedProtocolMessageType('FeatureList', (_message.Message,), {
+  'DESCRIPTOR' : _FEATURELIST,
+  '__module__' : 'grpc_routing_pb2'
+  # @@protoc_insertion_point(class_scope:dtserver.grpc.FeatureList)
+  })
+_sym_db.RegisterMessage(FeatureList)
+
 
 
 _ROUTING = _descriptor.ServiceDescriptor(
@@ -177,8 +225,8 @@ _ROUTING = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=197,
-  serialized_end=272,
+  serialized_start=276,
+  serialized_end=353,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetFeatures',
@@ -186,7 +234,7 @@ _ROUTING = _descriptor.ServiceDescriptor(
     index=0,
     containing_service=None,
     input_type=_NONELIKE,
-    output_type=_FEATURE,
+    output_type=_FEATURELIST,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

@@ -4,11 +4,11 @@
 export interface Property {
   'name'?: (string);
   'value'?: (string);
-  'description'?: (string);
+  'description'?: (string)[];
 }
 
 export interface Property__Output {
   'name': (string);
   'value': (string);
-  'description': (string);
+  'description': (string)[];
 }

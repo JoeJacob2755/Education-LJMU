@@ -1,11 +1,21 @@
-import { join } from 'path';
+import { basename, join } from 'path';
 import { addPageToProject, setProject } from './reducers/actions';
 import store from './reducers/store';
 import { Project } from './reducers/types';
-import { CONFIG_NAME, PAGE_EXTENSION } from './resources/constants';
+import {
+    CONFIG_NAME,
+    CONTENT_DIR_NAME,
+    PAGE_EXTENSION,
+    PLUGIN_DIR_NAME,
+    PYTHON_HEADER_DISCLAIMER,
+    PYTHON_IMPORTS,
+    SOURCE_DIR_NAME,
+} from './resources/constants';
 
 const { dialog } = window.require('electron').remote;
-const fs = window.require('fs');
+import { sync } from 'glob';
+import * as fs from 'fs';
+import { Data } from 'rete/types/core/data';
 
 function generateUUID(): string {
     // Public Domain/MIT
@@ -51,12 +61,16 @@ export function createProjectConfig(project: Project): string {
     }
 
     writeProjectConfig(id, project);
+    writeProjectSource(id, project);
+    writeProjectPlugin(id, project);
+    writeProjectContent(id, project);
 
     return id;
 }
 
 export function writeProjectConfig(id: string, project: Project) {
     const out_string = JSON.stringify({
+        version: 1,
         name: project.name,
         id: id,
     });
@@ -65,6 +79,37 @@ export function writeProjectConfig(id: string, project: Project) {
 
     fs.writeFileSync(out_path, out_string);
 }
+
+export function writeProjectSource(_: string, project: Project) {
+    const out_path = join(project.path, SOURCE_DIR_NAME);
+
+    fs.mkdir(out_path, (err) => {
+        if (err) {
+            console.error('unable to create source folder:', err);
+        }
+    });
+}
+
+export function writeProjectPlugin(_: string, project: Project) {
+    const out_path = join(project.path, PLUGIN_DIR_NAME);
+
+    fs.mkdir(out_path, (err) => {
+        if (err) {
+            console.error('unable to create plugin folder:', err);
+        }
+    });
+}
+
+export function writeProjectContent(_: string, project: Project) {
+    const out_path = join(project.path, CONTENT_DIR_NAME);
+
+    fs.mkdir(out_path, (err) => {
+        if (err) {
+            console.error('unable to create content folder:', err);
+        }
+    });
+}
+
 export async function saveProjectToLS(project: Project) {
     localStorage.setItem(project.id, JSON.stringify(project));
 }
@@ -121,22 +166,30 @@ export function openAndAddFileToPages() {
 }
 
 export function newFile() {
-    console.log('New file!');
-    if (store.getState().project.id) {
+    const project = store.getState().project;
+    if (project.id) {
+        const pages = findAllProjectPages(project.path).map((path) => basename(path));
         const ext = PAGE_EXTENSION;
-        const results = dialog.showSaveDialogSync({
-            filters: [{ name: 'DeepTrack page', extensions: [ext] }],
-        });
-        if (results) {
-            if (!fs.existsSync(results)) {
-                console.log('writing to', results);
-                fs.writeFileSync(results, '{}');
-                store.dispatch(addPageToProject({ page: results }));
-            }
+        let idx = 0;
+
+        let _name = 'page';
+        let name = _name;
+
+        while (fs.existsSync(join(project.path, name + '.' + ext))) {
+            idx++;
+            name = _name + idx;
         }
+        const path = join(project.path, CONTENT_DIR_NAME, name + '.' + ext);
+
+        fs.writeFileSync(path, '{}');
+        store.dispatch(addPageToProject({ page: path }));
     }
 }
 
+export function findAllProjectPages(dir: string): string[] {
+    const query = join(dir, '**', '*.' + PAGE_EXTENSION);
+    return sync(query);
+}
 // DATASET -----------------------------------------------------
 
 export function openDatasetPicker(): string[] | undefined {
@@ -144,3 +197,21 @@ export function openDatasetPicker(): string[] | undefined {
 }
 
 // UTILS -------------------------------------------------------
+
+// PYTHON ------------------------------------------------------
+
+export function writePython(data: Data, path: string) {
+    fs.writeFileSync(path, '');
+
+    fs.appendFileSync(path, PYTHON_HEADER_DISCLAIMER);
+    fs.appendFileSync(path, PYTHON_IMPORTS);
+
+    for (let k in data.nodes) {
+        let node = data.nodes[k];
+        console.log(node);
+    }
+
+    Object.entries(data).forEach((key, value) => {});
+}
+export function featureToString(data: Data) {}
+export function propertyToString(data: Data) {}

@@ -63,9 +63,9 @@ export const CreateProjectModal = connect(
             selection = dataset;
         }
         console.log('setting dataset');
-        PythonApi.setActiveDataset([selection, null]).catch((err) => {
-            alert('Failure updating the dataset' + err.message);
-        });
+        // PythonApi.setActiveDataset([selection, null]).catch((err) => {
+        //     alert('Failure updating the dataset' + err.message);
+        // });
     };
 
     // On form submit
@@ -78,7 +78,7 @@ export const CreateProjectModal = connect(
             const createProjectPayload: CreateAndSetProjectPayload = {
                 name: project_name,
                 path: project_path,
-                goal: project_goal,
+                template: project_goal,
             };
             props.createAndSetProject(createProjectPayload);
         }

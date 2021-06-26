@@ -11,6 +11,7 @@ export interface ProtoGrpcType {
   dtserver: {
     grpc: {
       Feature: MessageTypeDefinition
+      FeatureList: MessageTypeDefinition
       NoneLike: MessageTypeDefinition
       Property: MessageTypeDefinition
       Routing: SubtypeConstructor<typeof grpc.Client, _dtserver_grpc_RoutingClient> & { service: _dtserver_grpc_RoutingDefinition }

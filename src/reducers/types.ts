@@ -3,7 +3,7 @@ export type Project =
           id: string;
           name: string;
           path: string;
-          goal: string;
+          template: string;
           created: Date;
           pages: string[];
           version: number;
@@ -19,7 +19,7 @@ export const CREATE_AND_SET_PROJECT = 'CREATE_AND_SET_PROJECT';
 export type CreateAndSetProjectPayload = {
     name: string;
     path: string;
-    goal: string;
+    template: string;
 };
 export interface CreateAndSetProjectAction {
     type: 'CREATE_AND_SET_PROJECT';

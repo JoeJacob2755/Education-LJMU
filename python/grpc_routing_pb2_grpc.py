@@ -14,10 +14,10 @@ class RoutingStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetFeatures = channel.unary_stream(
+        self.GetFeatures = channel.unary_unary(
                 '/dtserver.grpc.Routing/GetFeatures',
                 request_serializer=grpc__routing__pb2.NoneLike.SerializeToString,
-                response_deserializer=grpc__routing__pb2.Feature.FromString,
+                response_deserializer=grpc__routing__pb2.FeatureList.FromString,
                 )
 
 
@@ -33,10 +33,10 @@ class RoutingServicer(object):
 
 def add_RoutingServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetFeatures': grpc.unary_stream_rpc_method_handler(
+            'GetFeatures': grpc.unary_unary_rpc_method_handler(
                     servicer.GetFeatures,
                     request_deserializer=grpc__routing__pb2.NoneLike.FromString,
-                    response_serializer=grpc__routing__pb2.Feature.SerializeToString,
+                    response_serializer=grpc__routing__pb2.FeatureList.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -59,8 +59,8 @@ class Routing(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/dtserver.grpc.Routing/GetFeatures',
+        return grpc.experimental.unary_unary(request, target, '/dtserver.grpc.Routing/GetFeatures',
             grpc__routing__pb2.NoneLike.SerializeToString,
-            grpc__routing__pb2.Feature.FromString,
+            grpc__routing__pb2.FeatureList.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

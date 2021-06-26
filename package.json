@@ -10,7 +10,7 @@
         "electron": "set ELECTRON_START_URL=http://localhost:3000 && electron . --allow-file-access-from-files",
         "start-server": "cd python && py -m pipenv run py server.py",
         "test-python": "cd python && python -m unittest",
-        "compile-proto": "py -m pipenv run py -m grpc_tools.protoc --proto_path ./proto/ --python_out=./python --grpc_python_out=./python proto/grpc_routing.proto && ",
+        "compile-proto": "py -m pipenv run py -m grpc_tools.protoc --proto_path ./proto/ --python_out=./python --grpc_python_out=./python proto/grpc_routing.proto && yarn compile-proto:ts ",
         "compile-proto:ts": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/resources proto/grpc_routing.proto"
     },
     "keywords": [],

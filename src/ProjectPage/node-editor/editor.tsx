@@ -7,11 +7,16 @@ import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin, { ReactMenu } from './ContextMenu/index.js';
 // @ts-ignore
 import AreaPlugin from 'rete-area-plugin';
-import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
-import PythonApi, { FeatureType, PropertyType } from '../../resources/PythonApi';
+import { Data, NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
+import PythonApi from '../../resources/PythonApi';
 import { ViewModuleSharp } from '@material-ui/icons';
 
 import { stringSocket, featureSocket, imageSocket } from './Sockets';
+import { Feature } from '../../resources/dtserver/grpc/Feature.js';
+import * as fs from 'fs';
+import { writePython } from '../../utils';
+import { dirname, join, basename } from 'path';
+import { SOURCE_DIR_NAME } from '../../resources/constants';
 
 const FeatureControlComponent = ({
     value,
@@ -64,11 +69,11 @@ class FeatureControl extends Rete.Control {
 }
 
 export class FeatureComponent extends Rete.Component {
-    feature: FeatureType;
+    feature: Feature;
     package: string;
-    constructor(feature_name: string, feature: FeatureType) {
+    constructor(feature_name: string, feature: Feature) {
         super(feature_name);
-        this.package = feature.package;
+        this.package = feature.package || 'misc';
         this.feature = feature;
     }
 
@@ -84,7 +89,7 @@ export class FeatureComponent extends Rete.Component {
 
         const property_node = this.editor?.components?.get('Property');
 
-        Object.keys(this.feature.properties).forEach((name, idx) => {
+        Object.keys(this.feature.properties || {}).forEach((name, idx) => {
             const input = new Rete.Input(name, name, stringSocket);
             node.addInput(input);
             if (property_node) {
@@ -140,8 +145,14 @@ export class PropertyComponent extends Rete.Component {
     }
 }
 
-export async function createEditor(container: HTMLElement) {
-    const featureSet = await PythonApi.getAvailableFeatures([]);
+export async function createEditor(container: HTMLElement, dataPath: string) {
+    const editorData = JSON.parse(fs.readFileSync(dataPath)) as Data;
+    const response = await PythonApi.getFeaturesPromise({});
+
+    if (!response) {
+        console.error('Unable to load features from server');
+        return;
+    }
 
     var editor = new Rete.NodeEditor('demo@0.1.0', container);
     editor.use(ConnectionPlugin);
@@ -156,14 +167,10 @@ export async function createEditor(container: HTMLElement) {
 
     var engine = new Rete.Engine('demo@0.1.0');
 
-    const modules = Object.values(featureSet);
-    modules.forEach((module) => {
-        Object.entries(module).forEach(([feature_name, feature]) => {
-            const c = new FeatureComponent(feature_name, feature);
-
-            editor.register(c);
-            engine.register(c);
-        });
+    response.features.forEach((feature) => {
+        const c = new FeatureComponent(feature.name, feature);
+        editor.register(c);
+        engine.register(c);
     });
 
     const p_c = new PropertyComponent();
@@ -173,10 +180,17 @@ export async function createEditor(container: HTMLElement) {
     editor.on('process nodecreated noderemoved connectioncreated connectionremoved', async () => {
         console.log('process');
         await engine.abort();
-        await engine.process(editor.toJSON());
+        const data = editor.toJSON();
+        await engine.process(data);
+        fs.writeFileSync(dataPath, JSON.stringify(data));
+        writePython(data, join(dirname(dataPath), '..', SOURCE_DIR_NAME, basename(dataPath).split('.')[0] + '.py'));
     });
 
     editor.view.resize();
+    if (editorData) {
+        editor.fromJSON(editorData);
+    }
+
     editor.trigger('process');
     AreaPlugin.zoomAt(editor, editor.nodes);
 }
