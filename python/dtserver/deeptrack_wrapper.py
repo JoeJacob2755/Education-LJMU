@@ -58,6 +58,7 @@ for module_name, module in modules:
             arg_dict = {}
             subclass_iterator = module_class.mro()
 
+            properties = []
             for feature_class in subclass_iterator:
 
                 if safe_issubclass(feature_class, dt.features.Feature):
@@ -79,7 +80,7 @@ for module_name, module in modules:
                 except:
                     pass
 
-                properties = []
+                
                 for idx in range(len(arglist)):
                     annotation = False
 
@@ -121,6 +122,7 @@ for module_name, module in modules:
                     if arglist[idx] not in arg_dict:
                         arg_dict[arglist[idx]] = {
                             "value": "",
+                            "name": arglist[idx],
                             # "annotation": "",
                             # "type": "property",
                         }
@@ -132,9 +134,9 @@ for module_name, module in modules:
                     if docstring_search and "description" not in arg_dict[arglist[idx]]:
                         arg_dict[arglist[idx]]["description"] = docstring_search
 
-                    properties.append(
-                        grpc_routing_pb2.Property(**arg_dict[arglist[idx]])
-                    )
+            
+            properties = [grpc_routing_pb2.Property(**kwargs) for kwargs in arg_dict.values()]
+            
 
             features.append(
                 grpc_routing_pb2.Feature(
@@ -144,9 +146,7 @@ for module_name, module in modules:
                     properties=properties,
                 )
             )
-
-    if module_dict:
-        features[module_name] = module_dict
+            # print(features[-1]properties)
 
 
 def get_all_features_for_frontend():

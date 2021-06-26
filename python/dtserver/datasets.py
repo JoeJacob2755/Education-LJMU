@@ -30,8 +30,8 @@ class DataIterator:
             images = [image for image in images]
 
             # By popping the first index in list, we free memory continuously
-            while image := images.pop(0):
-                yield image
+            # while image := images.pop(0):
+            #     yield image
 
 
 class Dataset:

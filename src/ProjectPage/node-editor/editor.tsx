@@ -88,15 +88,18 @@ export class FeatureComponent extends Rete.Component {
         node.addInput(inpt).addOutput(outp).addOutput(feat);
 
         const property_node = this.editor?.components?.get('Property');
-
-        Object.keys(this.feature.properties || {}).forEach((name, idx) => {
+        console.log(this.feature.properties);
+        this.feature?.properties?.forEach((prop, idx) => {
+            if (!prop) return;
+            let { name, value } = prop;
+            console.log(name, value, prop);
             const input = new Rete.Input(name, name, stringSocket);
             node.addInput(input);
             if (property_node) {
                 property_node.createNode({}).then((p_node: Node) => {
                     let iters = 0;
 
-                    p_node.controls.get('p_output').props.defaultValue = this.feature.properties[name].default;
+                    p_node.controls.get('p_output').props.defaultValue = value;
                     // This is a bad hack. It's done since the position of the node is not known at this point.
                     const c = setInterval(() => {
                         iters++;
@@ -148,6 +151,7 @@ export class PropertyComponent extends Rete.Component {
 export async function createEditor(container: HTMLElement, dataPath: string) {
     const editorData = JSON.parse(fs.readFileSync(dataPath)) as Data;
     const response = await PythonApi.getFeaturesPromise({});
+    console.log(response.features);
 
     if (!response) {
         console.error('Unable to load features from server');
@@ -188,7 +192,11 @@ export async function createEditor(container: HTMLElement, dataPath: string) {
 
     editor.view.resize();
     if (editorData) {
-        editor.fromJSON(editorData);
+        try {
+            editor.fromJSON(editorData);
+        } catch {
+            console.log('Loaded empty json');
+        }
     }
 
     editor.trigger('process');

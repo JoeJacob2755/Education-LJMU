@@ -14,6 +14,7 @@ import { findAllProjectPages } from '../utils';
 
 function Pages({ project }: { project: Project }) {
     const pages = findAllProjectPages(project.path);
+    console.log(pages);
 
     const [activePage, setActivePage] = useState(0);
 
@@ -29,7 +30,7 @@ function Pages({ project }: { project: Project }) {
                     }}
                 ></PageList>
             </div>
-            {pages ? (
+            {pages.length ? (
                 <Canvas key={activePage} page={activePage < pages.length ? pages[activePage] : pages[0]}></Canvas>
             ) : null}
         </div>
