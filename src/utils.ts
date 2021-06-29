@@ -16,6 +16,7 @@ const { dialog } = window.require('electron').remote;
 import { sync } from 'glob';
 import * as fs from 'fs';
 import { Data } from 'rete/types/core/data';
+import { createPythonDefinitions, prepareData } from './resources/stringbuilder';
 
 function generateUUID(): string {
     // Public Domain/MIT
@@ -206,12 +207,9 @@ export function writePython(data: Data, path: string) {
     fs.appendFileSync(path, PYTHON_HEADER_DISCLAIMER);
     fs.appendFileSync(path, PYTHON_IMPORTS);
 
-    for (let k in data.nodes) {
-        let node = data.nodes[k];
-        console.log(node);
-    }
-
-    Object.entries(data).forEach((key, value) => {});
+    const refs = prepareData(data.nodes);
+    const python_defs = createPythonDefinitions(data.nodes, refs);
+    console.log(python_defs);
 }
 export function featureToString(data: Data) {}
 export function propertyToString(data: Data) {}
