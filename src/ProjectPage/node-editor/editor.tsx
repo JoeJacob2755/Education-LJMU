@@ -19,6 +19,7 @@ import * as fs from 'fs';
 import { writePython } from '../../utils';
 import { dirname, join, basename } from 'path';
 import { SOURCE_DIR_NAME } from '../../resources/constants';
+import Rect from './Rect';
 
 const FeatureControlComponent = ({
     value,
@@ -99,36 +100,8 @@ export class FeatureComponent extends Rete.Component {
         this.feature?.properties?.forEach((prop) => {
             if (!prop) return;
             let { name, value } = prop;
-            console.log(name, value, prop);
             const input = new Rete.Input(name, name, stringSocket);
             node.addInput(input);
-
-            // if (property_node) {
-            //     property_node.createNode({}).then((p_node: Node) => {
-            //         let iters = 0;
-
-            //         p_node.controls.get('p_output').props.value = value;
-            //         // This is a bad hack. It's done since the position of the node is not known at this point.
-            //         const c = setInterval(() => {
-            //             iters++;
-            //             if ((node.position[0] !== 0 && node.position[1] !== 0) || iters > 5) {
-            //                 p_node.meta = {};
-            //                 p_node.position[0] = node.position[0] - 300;
-            //                 p_node.position[1] = node.position[1] + 145 + 44 * idx;
-            //                 this.editor?.addNode(p_node);
-
-            //                 // Connect
-            //                 const output = p_node.outputs.get('p_output');
-            //                 if (input && output) {
-            //                     this.editor?.connect(output, input);
-            //                 }
-
-            //                 // console.log(p_node.data, this.feature.properties[name].default);
-            //                 clearInterval(c);
-            //             }
-            //         }, 100);
-            //     });
-            // }
         });
     }
 
@@ -159,13 +132,12 @@ export class PropertyComponent extends Rete.Component {
 export async function createEditor(container: HTMLElement, dataPath: string) {
     const editorData = JSON.parse(fs.readFileSync(dataPath)) as Data;
     const response = await PythonApi.getFeaturesPromise({});
-    console.log(response.features);
 
     if (!response) {
         console.error('Unable to load features from server');
         return;
     }
-
+    console.log(document.head.children);
     var editor = new Rete.NodeEditor('demo@0.1.0', container);
     editor.use(ConnectionPlugin);
     editor.use(HistoryPlugin, { keyboard: false });
@@ -177,7 +149,12 @@ export async function createEditor(container: HTMLElement, dataPath: string) {
             return [component.package];
         },
     });
-    editor.use(AreaPlugin, { snap: 10, scaleExtent: { min: 0.1, max: 4 } });
+
+    console.log(document.head.children);
+
+    editor.use(AreaPlugin, { snap: 5, scaleExtent: { min: 0.1, max: 4 } });
+    // I hate rete plugins
+    AreaPlugin._snap.size = 5;
 
     var engine = new Rete.Engine('demo@0.1.0');
 
@@ -191,18 +168,61 @@ export async function createEditor(container: HTMLElement, dataPath: string) {
     editor.register(p_c);
     engine.register(p_c);
 
+    const rectangle = new Rect(editor, {});
+
     let boundTranslate = false;
+    let x0: number = 0;
+    let y0: number = 0;
     container.addEventListener('mousedown', (e) => {
-        if (!e.ctrlKey) return;
+        console.log(e.target);
+        if (e.target !== editor.view.container) return;
+        if (!e.ctrlKey) {
+            editor.selected.clear();
+            editor.nodes.map((n) => n.update());
+            return;
+        }
+        x0 = e.clientX;
+        y0 = e.clientY - 25;
         boundTranslate = true;
     });
 
+    container.addEventListener('mousemove', (e) => {
+        if (boundTranslate) {
+            const dx = Math.abs(x0 - e.clientX);
+            const dy = Math.abs(y0 - e.clientY + 25);
+            const x = Math.min(x0, e.clientX);
+            const y = Math.min(y0, e.clientY - 25);
+            rectangle.show(x, y, dx, dy);
+        }
+    });
+
     document.addEventListener('mouseup', (e) => {
+        if (boundTranslate) {
+            const { k, x: xt, y: yt } = editor.view.area.transform;
+            console.log(editor.view);
+            console.log(k, xt, yt);
+            const dx = Math.abs(x0 - e.clientX) / k;
+            const dy = Math.abs(y0 - e.clientY + 25) / k;
+            const x = Math.min(x0, e.clientX) / k - xt / k - editor.view.container.offsetLeft / k;
+            const y = Math.min(y0, e.clientY - 25) / k - yt / k;
+
+            editor.nodes.forEach((node) => {
+                console.log(y, y + dy, node.position[1]);
+                if (
+                    node.position[0] >= x &&
+                    node.position[0] <= x + dx &&
+                    node.position[1] >= y &&
+                    node.position[1] <= y + dy
+                ) {
+                    editor.selectNode(node, true);
+                }
+            });
+        }
+        rectangle.hide();
         boundTranslate = false;
     });
 
     editor.on('keydown', (e) => {
-        console.log(e.key);
         if (e.key === 'Delete') {
             editor.selected.each((n) => editor.removeNode(n));
         } else if (e.ctrlKey && !e.shiftKey && e.code === 'KeyA') {
@@ -214,7 +234,7 @@ export async function createEditor(container: HTMLElement, dataPath: string) {
             editor.trigger(e.shiftKey ? 'redo' : 'undo');
         }
     });
-    editor.on('translate', () => {
+    editor.on('translate', (e) => {
         if (boundTranslate) {
             return false;
         }

@@ -19,7 +19,7 @@ export default function (Menu) {
                     property_node.createNode({}).then((p_node) => {
                         p_node.meta = {};
                         p_node.position[0] = args.node.position[0] - 300;
-                        p_node.position[1] = args.node.position[1] + 145 + 44 * idx;
+                        p_node.position[1] = Math.round(args.node.position[1]) + 145 + 45 * idx;
                         const control = p_node.controls.get('p_output');
                         control.setValue.bind(control)(prop.value);
 

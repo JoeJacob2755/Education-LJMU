@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12grpc_routing.proto\x12\rdtserver.grpc\"\n\n\x08NoneLike\"<\n\x08Property\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x03(\t\"j\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07package\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12+\n\nproperties\x18\x04 \x03(\x0b\x32\x17.dtserver.grpc.Property\"7\n\x0b\x46\x65\x61tureList\x12(\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0b\x32\x16.dtserver.grpc.Feature2M\n\x07Routing\x12\x42\n\x0bGetFeatures\x12\x17.dtserver.grpc.NoneLike\x1a\x1a.dtserver.grpc.FeatureListb\x06proto3'
+  serialized_pb=b'\n\x12grpc_routing.proto\x12\rdtserver.grpc\"\n\n\x08NoneLike\"<\n\x08Property\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x03(\t\"j\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07package\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12+\n\nproperties\x18\x04 \x03(\x0b\x32\x17.dtserver.grpc.Property\"7\n\x0b\x46\x65\x61tureList\x12(\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0b\x32\x16.dtserver.grpc.Feature\";\n\x10\x46\x65\x61tureSpecifier\x12\x11\n\tpage_path\x18\x01 \x01(\t\x12\x14\n\x0c\x66\x65\x61ture_name\x18\x02 \x01(\t\"\n\n\x08Resolved\"c\n\x05Image\x12\x0c\n\x04\x64\x61ta\x18\x01 \x03(\x0c\x12\x0c\n\x04vmin\x18\x02 \x01(\x02\x12\x0c\n\x04vmax\x18\x03 \x01(\x02\x12\x0e\n\x06height\x18\x04 \x01(\x05\x12\r\n\x05width\x18\x05 \x01(\x05\x12\x11\n\tnchannels\x18\x06 \x01(\x05\"y\n\rResolveResult\x12\n\n\x02id\x18\x01 \x01(\x05\x12+\n\x08resolved\x18\x02 \x01(\x0b\x32\x17.dtserver.grpc.ResolvedH\x00\x12%\n\x05image\x18\x03 \x01(\x0b\x32\x14.dtserver.grpc.ImageH\x00\x42\x08\n\x06result2\xa0\x01\n\x07Routing\x12\x42\n\x0bGetFeatures\x12\x17.dtserver.grpc.NoneLike\x1a\x1a.dtserver.grpc.FeatureList\x12Q\n\x0eResolveFeature\x12\x1f.dtserver.grpc.FeatureSpecifier\x1a\x1c.dtserver.grpc.ResolveResult0\x01\x62\x06proto3'
 )
 
 
@@ -180,12 +180,206 @@ _FEATURELIST = _descriptor.Descriptor(
   serialized_end=274,
 )
 
+
+_FEATURESPECIFIER = _descriptor.Descriptor(
+  name='FeatureSpecifier',
+  full_name='dtserver.grpc.FeatureSpecifier',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='page_path', full_name='dtserver.grpc.FeatureSpecifier.page_path', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='feature_name', full_name='dtserver.grpc.FeatureSpecifier.feature_name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=276,
+  serialized_end=335,
+)
+
+
+_RESOLVED = _descriptor.Descriptor(
+  name='Resolved',
+  full_name='dtserver.grpc.Resolved',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=337,
+  serialized_end=347,
+)
+
+
+_IMAGE = _descriptor.Descriptor(
+  name='Image',
+  full_name='dtserver.grpc.Image',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='data', full_name='dtserver.grpc.Image.data', index=0,
+      number=1, type=12, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='vmin', full_name='dtserver.grpc.Image.vmin', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='vmax', full_name='dtserver.grpc.Image.vmax', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='height', full_name='dtserver.grpc.Image.height', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='width', full_name='dtserver.grpc.Image.width', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='nchannels', full_name='dtserver.grpc.Image.nchannels', index=5,
+      number=6, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=349,
+  serialized_end=448,
+)
+
+
+_RESOLVERESULT = _descriptor.Descriptor(
+  name='ResolveResult',
+  full_name='dtserver.grpc.ResolveResult',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='dtserver.grpc.ResolveResult.id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='resolved', full_name='dtserver.grpc.ResolveResult.resolved', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='image', full_name='dtserver.grpc.ResolveResult.image', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='result', full_name='dtserver.grpc.ResolveResult.result',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=450,
+  serialized_end=571,
+)
+
 _FEATURE.fields_by_name['properties'].message_type = _PROPERTY
 _FEATURELIST.fields_by_name['features'].message_type = _FEATURE
+_RESOLVERESULT.fields_by_name['resolved'].message_type = _RESOLVED
+_RESOLVERESULT.fields_by_name['image'].message_type = _IMAGE
+_RESOLVERESULT.oneofs_by_name['result'].fields.append(
+  _RESOLVERESULT.fields_by_name['resolved'])
+_RESOLVERESULT.fields_by_name['resolved'].containing_oneof = _RESOLVERESULT.oneofs_by_name['result']
+_RESOLVERESULT.oneofs_by_name['result'].fields.append(
+  _RESOLVERESULT.fields_by_name['image'])
+_RESOLVERESULT.fields_by_name['image'].containing_oneof = _RESOLVERESULT.oneofs_by_name['result']
 DESCRIPTOR.message_types_by_name['NoneLike'] = _NONELIKE
 DESCRIPTOR.message_types_by_name['Property'] = _PROPERTY
 DESCRIPTOR.message_types_by_name['Feature'] = _FEATURE
 DESCRIPTOR.message_types_by_name['FeatureList'] = _FEATURELIST
+DESCRIPTOR.message_types_by_name['FeatureSpecifier'] = _FEATURESPECIFIER
+DESCRIPTOR.message_types_by_name['Resolved'] = _RESOLVED
+DESCRIPTOR.message_types_by_name['Image'] = _IMAGE
+DESCRIPTOR.message_types_by_name['ResolveResult'] = _RESOLVERESULT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 NoneLike = _reflection.GeneratedProtocolMessageType('NoneLike', (_message.Message,), {
@@ -216,6 +410,34 @@ FeatureList = _reflection.GeneratedProtocolMessageType('FeatureList', (_message.
   })
 _sym_db.RegisterMessage(FeatureList)
 
+FeatureSpecifier = _reflection.GeneratedProtocolMessageType('FeatureSpecifier', (_message.Message,), {
+  'DESCRIPTOR' : _FEATURESPECIFIER,
+  '__module__' : 'grpc_routing_pb2'
+  # @@protoc_insertion_point(class_scope:dtserver.grpc.FeatureSpecifier)
+  })
+_sym_db.RegisterMessage(FeatureSpecifier)
+
+Resolved = _reflection.GeneratedProtocolMessageType('Resolved', (_message.Message,), {
+  'DESCRIPTOR' : _RESOLVED,
+  '__module__' : 'grpc_routing_pb2'
+  # @@protoc_insertion_point(class_scope:dtserver.grpc.Resolved)
+  })
+_sym_db.RegisterMessage(Resolved)
+
+Image = _reflection.GeneratedProtocolMessageType('Image', (_message.Message,), {
+  'DESCRIPTOR' : _IMAGE,
+  '__module__' : 'grpc_routing_pb2'
+  # @@protoc_insertion_point(class_scope:dtserver.grpc.Image)
+  })
+_sym_db.RegisterMessage(Image)
+
+ResolveResult = _reflection.GeneratedProtocolMessageType('ResolveResult', (_message.Message,), {
+  'DESCRIPTOR' : _RESOLVERESULT,
+  '__module__' : 'grpc_routing_pb2'
+  # @@protoc_insertion_point(class_scope:dtserver.grpc.ResolveResult)
+  })
+_sym_db.RegisterMessage(ResolveResult)
+
 
 
 _ROUTING = _descriptor.ServiceDescriptor(
@@ -225,8 +447,8 @@ _ROUTING = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=276,
-  serialized_end=353,
+  serialized_start=574,
+  serialized_end=734,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetFeatures',
@@ -235,6 +457,16 @@ _ROUTING = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_NONELIKE,
     output_type=_FEATURELIST,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ResolveFeature',
+    full_name='dtserver.grpc.Routing.ResolveFeature',
+    index=1,
+    containing_service=None,
+    input_type=_FEATURESPECIFIER,
+    output_type=_RESOLVERESULT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

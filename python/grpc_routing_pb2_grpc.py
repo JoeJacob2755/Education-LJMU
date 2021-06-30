@@ -19,12 +19,23 @@ class RoutingStub(object):
                 request_serializer=grpc__routing__pb2.NoneLike.SerializeToString,
                 response_deserializer=grpc__routing__pb2.FeatureList.FromString,
                 )
+        self.ResolveFeature = channel.unary_stream(
+                '/dtserver.grpc.Routing/ResolveFeature',
+                request_serializer=grpc__routing__pb2.FeatureSpecifier.SerializeToString,
+                response_deserializer=grpc__routing__pb2.ResolveResult.FromString,
+                )
 
 
 class RoutingServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def GetFeatures(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ResolveFeature(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +48,11 @@ def add_RoutingServicer_to_server(servicer, server):
                     servicer.GetFeatures,
                     request_deserializer=grpc__routing__pb2.NoneLike.FromString,
                     response_serializer=grpc__routing__pb2.FeatureList.SerializeToString,
+            ),
+            'ResolveFeature': grpc.unary_stream_rpc_method_handler(
+                    servicer.ResolveFeature,
+                    request_deserializer=grpc__routing__pb2.FeatureSpecifier.FromString,
+                    response_serializer=grpc__routing__pb2.ResolveResult.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +78,22 @@ class Routing(object):
         return grpc.experimental.unary_unary(request, target, '/dtserver.grpc.Routing/GetFeatures',
             grpc__routing__pb2.NoneLike.SerializeToString,
             grpc__routing__pb2.FeatureList.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ResolveFeature(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/dtserver.grpc.Routing/ResolveFeature',
+            grpc__routing__pb2.FeatureSpecifier.SerializeToString,
+            grpc__routing__pb2.ResolveResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

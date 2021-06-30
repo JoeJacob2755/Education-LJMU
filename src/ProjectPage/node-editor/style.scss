@@ -1,4 +1,4 @@
-$NodeBackgroundColor: rgb(59, 130, 246);
+$NodeBackgroundColor: rgb(14, 43, 94);
 
 :root {
     --BackgroundColor: rgba(17, 24, 39);
@@ -10,7 +10,7 @@ $NodeBackgroundColor: rgb(59, 130, 246);
     --NodeTextColor: #fff;
     --NodeBorderSize: 0px;
     --NodeBorderColor: #000000;
-    --NodeBorderRadius: 1em;
+    --NodeBorderRadius: 0em;
     --NodeMinHeight: 40px;
     --NodeMinWidth: 160px;
     --NodePaddingTop: 15px;
@@ -21,7 +21,7 @@ $NodeBackgroundColor: rgb(59, 130, 246);
     --NodeBoxShadowS: 2px;
     --NodeBoxShadowColor: rgba(0, 0, 0, 1);
 
-    --NodeHoverBackgroundColor: rgba(96, 165, 250, 1);
+    --NodeHoverBackgroundColor: rgb(27, 62, 124) !important;
     --NodeHoverTextColor: #000000;
     --NodeHoverBorderSize: 0px;
     --NodeHoverBorderColor: #000000;
@@ -33,7 +33,7 @@ $NodeBackgroundColor: rgb(59, 130, 246);
     --NodeHoverBoxShadowS: 2px;
     --NodeHoverBoxShadowColor: #4ea9ff;
 
-    --NodeSelectedBackgroundColor: rgba(29, 78, 216);
+    --NodeSelectedBackgroundColor: rgb(27, 62, 124) !important;
     --NodeSelectedTextColor: rgba(0, 0, 0, 1);
     --NodeSelectedBorderSize: 0px;
     --NodeSelectedBorderColor: #000000;
@@ -109,13 +109,16 @@ $NodeBackgroundColor: rgb(59, 130, 246);
     background-image: var(--BackgroundImage);
 }
 
-.node {
+* .node {
     display: var(--NodeType);
-    background: $NodeBackgroundColor;
-    border: var(--NodeBorderSize) solid var(--NodeBorderColor);
-    border-radius: var(--NodeBorderRadius);
+    background: $NodeBackgroundColor !important;
+    border: none !important;
+    border-radius: var(--NodeBorderRadius) !important;
     height: auto;
-    padding-bottom: var(--NodePaddingBottom);
+    min-width: 210px !important;
+    padding-top: 0 !important;
+    padding-bottom: var(--NodePaddingBottom) !important;
+    margin: auto !important;
     -webkit-box-shadow: var(--NodeBoxShadowHL) var(--NodeBoxShadowVL) var(--NodeBoxShadowBR) var(--NodeBoxShadowS)
         var(--NodeBoxShadowColor);
     box-shadow: var(--NodeBoxShadowHL) var(--NodeBoxShadowVL) var(--NodeBoxShadowBR) var(--NodeBoxShadowS)
@@ -125,8 +128,14 @@ $NodeBackgroundColor: rgb(59, 130, 246);
 .node .title {
     color: var(--NodeTextColor);
     font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-    background: transparent;
-    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 70px !important;
+    text-align: center !important;
+    font-size: 1.4em !important;
+    line-height: 50px !important;
+    font-weight: bold !important;
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
 }
 
 .node .input-title {
@@ -142,10 +151,18 @@ $NodeBackgroundColor: rgb(59, 130, 246);
 }
 
 .node input {
-    border: 2px solid black;
-    height: auto;
-    width: auto;
-    border-radius: var(--NodeBorderRadius);
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+    // font-family: monospace;
+}
+
+.node .input {
+    // border: 2px solid black;
+    // height: auto;
+    // width: auto;
+    // border-radius: var(--NodeBorderRadius);
+    // margin-bottom: 5px;
+    margin-top: 7.5px !important;
 }
 
 .node:hover {
@@ -160,7 +177,7 @@ $NodeBackgroundColor: rgb(59, 130, 246);
 }
 
 .node.selected {
-    background: var(--NodeSelectedBackgroundColor);
+    background: var(--NodeSelectedBackgroundColor) !important;
     color: var(--NodeSelectedTextColor);
     border: var(--NodeSelectedBorderSize) solid var(--NodeSelectedBorderColor);
     border-radius: var(--NodeSelectedBorderRadius);
@@ -243,16 +260,27 @@ $NodeBackgroundColor: rgb(59, 130, 246);
 }
 
 .property {
+    height: 35px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    // position: relative;
     .title {
         display: none;
     }
     .output {
-        // position: absolute;
-        margin-top: -4px;
-        margin-bottom: -21px;
+        // position: relative;
+        display: inline-block;
+        float: right;
+        // right: 0px;
+        // margin-top: -3px;
+        // margin-bottom: -25px;
     }
     .control {
+        display: inline-block;
+        margin: 0 !important;
+        padding-top: 5px !important;
         height: 25px;
+        margin-top: 0px;
     }
 }
 
